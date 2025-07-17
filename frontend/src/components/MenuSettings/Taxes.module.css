@@ -1,0 +1,53 @@
+.taxes{
+    display: flex;
+}
+.append-button{
+    width: 120px;
+    height: 120px;
+    margin: 1rem;
+    font-size: 44px;
+    background-color:green;
+    box-shadow: 0px;
+    border: 0;
+}
+.tax-cards{
+    width: 120px;
+    height: 120px;
+    margin: 1rem;
+    font-size: 44px;
+    background-color:white;
+    box-shadow: 0px;
+    border: 0;
+}
+.tax-input{
+    display: none;
+    padding: 1rem;
+    border: 1px solid white;
+    position: fixed;
+    top: 50%;
+    right: 50%;
+    transform: translate(50%, -50%);
+    flex-direction: column;
+}
+.tax-input h1{
+    color: black;
+    margin-bottom: 2rem;
+}
+.tax-input input{
+    margin-bottom: 1rem;
+}
+.tax-input button{
+    background-color: green;
+    border: none;
+}
+.action-buttons {
+    display: flex;
+    justify-content: space-between;
+}
+.action-buttons button{
+    width: 50%;
+    color: white;
+}
+.action-buttons :first-child{
+    margin-right: 1rem;
+}

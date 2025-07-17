@@ -2,17 +2,17 @@ body {
 	margin: 0px !important;
   	overflow-y: hidden;  	
 	font-family: Arial, Helvetica, sans-serif;
+	background-color: #1a1a24;
 
 }
 .page-container {
   	width: 100%;
-  	height: 100%;
+	height: 100vh;
 	display: flex;
 }
 .left-bar {
  	width: 15%;
   	height: 100vh;
-  	background-color: #212529;
   	padding-top: 1rem;
 }
 .left-bar h1 {
@@ -26,7 +26,9 @@ ul {
 li {
   	color: white;
   	display: flex;
-	height: 60px;
+	flex-direction: column; 
+	min-height: 60px;
+	height: auto;
 	cursor: pointer;
 }
 li p {
@@ -41,12 +43,61 @@ svg {
   	gap: 8px; 
 	padding-left: 12px;
 }
+
+.main-menu{
+	display: flex;
+	margin-bottom: 10px;
+}
 .content{
 	width: 85%;
-	margin-left: 1rem;
 	padding-top: 16px;
 }
 .content h1{
+	color: white;
 	margin: 0px;
 	margin-bottom: 1rem;
+}
+.content-container{
+	border-top-left-radius: 20px;
+	background-color:  rgb(194, 192, 192);
+	height: calc(100vh - 4rem);
+}
+.sub-menu{
+	display: none;
+	background-color: #101016;
+	transition: transform 0.3s ease;
+}
+
+.sub-menu ul li{
+	min-height: 40px;
+	margin-left: 1rem ;
+	text-align: left;
+	justify-content: center;
+}
+.rotate-down {
+  	transform: rotate(90deg);
+  	transition: transform 0.3s ease;
+}
+
+.save-div{
+    height: 10%;
+    display: flex;
+    padding: 20px 60px 20px 30px;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 15px;
+    border-bottom: 0px;
+    margin-bottom: 0.5rem;
+}
+.save-div button{
+    display: flex;
+    border-radius: 0px;
+    width: 200px;
+    background-color: green;
+    color: white;
+    align-items: center;
+}
+.save-div i{
+    background-color: green;
+    margin-right: 10px;
 }
