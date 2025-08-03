@@ -1,0 +1,150 @@
+.category-input-container {
+    display: flex;
+    gap: 50px;
+    justify-content: center;
+}
+
+.category-list {
+    display: none;
+    min-height: 10px;
+    border: 1px solid #94989c;
+}
+
+.category-list li {
+    min-height: 25px;
+    color: black;
+    padding-left: 1rem;
+    background-color: white;
+}
+
+.category-button {
+    display: flex;
+}
+
+.add-category {
+    margin-left: 1rem;
+    background-color: cornflowerblue;
+    color: white;
+    border: 0px;
+    height: 40px;    
+    width: 100px;
+}
+
+
+.category-container {
+    display: flex;
+}
+
+.upper-category-container {
+    width: 50%;
+    padding: 3rem;
+}
+
+.upper-category-container h1 {
+    color: black;
+}
+
+.sub-category-container h1 {
+    color: black;
+}
+
+.sub-category-container {
+    width: 50%;
+    padding: 3rem;
+}
+
+.categories {
+    padding: 1rem;
+}
+.category {
+    display: flex;
+    align-items: center;
+    border: 1px solid rgb(219, 219, 219);
+    justify-content: space-between;
+}
+
+.category svg {
+    margin-right: 1rem;
+}
+
+.category p {
+    color: cornflowerblue;
+    font-size: 33px;
+    margin: 0;
+    margin: 1rem;
+}
+
+.category-species {
+    border: 1px solid rgb(219, 219, 219);
+    margin-bottom: 1rem;
+}
+
+.sub-category-append {
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+.sub-category-append p {
+    text-align: center;
+    border: 1px dashed rgb(209 213 219);
+    padding: 1rem;
+}
+
+.sub-category-under-uppers {
+    margin: 1rem 3rem 1rem 3rem;
+    font-size: 20px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.sub-category-under-uppers h4 {
+    margin: 0px;
+}
+.notification-error {
+    display: none;
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 1rem 1.5rem;
+    border-radius: 8px;
+    color: white;
+    font-weight: 500;
+    z-index: 1000;
+    animation: 0.3s ease 0s 1 normal none running slideInRight;
+    max-width: 300px;
+    box-shadow: rgba(0, 0, 0, 0.3) 0px 4px 20px;
+    background: rgb(220, 53, 69);
+}
+.category-input-container {
+    border: 1px solid #94989c;    
+    margin-left: 3rem;
+    margin-right: 3rem;
+    border-radius: 16px;
+    padding: 1rem;
+    background-color: #d7dbe0;
+}
+
+.category-input-option p{
+    margin-bottom: .5rem;
+    font-size: 25px;
+}
+.category-input-option button {
+    width: 240px;
+    height: 40px;
+    align-items: center;
+    border-radius: 16px;
+    border: 1px solid #94989c;
+    padding-left: 1rem;
+}
+.category-input-name p{
+    font-size: 25px;
+    margin-bottom: .5rem;
+}
+.category-input-name input{
+    width: 240px;
+    height: 40px;
+    align-items: center;
+    border-radius: 16px;
+    border: 1px solid #94989c;
+    padding-left: 1rem;
+}

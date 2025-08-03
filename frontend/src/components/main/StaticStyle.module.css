@@ -1,9 +1,13 @@
+*{
+	padding: 0px;
+	margin: 0px;
+}
 body {
 	margin: 0px !important;
   	overflow-y: hidden;  	
 	font-family: Arial, Helvetica, sans-serif;
-	background-color: #1a1a24;
-
+	background-color: #272736;
+	
 }
 .page-container {
   	width: 100%;
@@ -11,9 +15,9 @@ body {
 	display: flex;
 }
 .left-bar {
+	padding: 1rem;
  	width: 15%;
   	height: 100vh;
-  	padding-top: 1rem;
 }
 .left-bar h1 {
   	color: white;
@@ -35,6 +39,7 @@ li p {
 	margin: auto;
 	margin-left: 1rem;
 }
+
 svg {
   	height: 100%;
   	width: 30px;
@@ -50,7 +55,6 @@ svg {
 }
 .content{
 	width: 85%;
-	padding-top: 16px;
 }
 .content h1{
 	color: white;
@@ -58,9 +62,9 @@ svg {
 	margin-bottom: 1rem;
 }
 .content-container{
-	border-top-left-radius: 20px;
-	background-color:  rgb(194, 192, 192);
-	height: calc(100vh - 4rem);
+	background-color:  white;
+	height: 100vh;
+	overflow-y: auto;
 }
 .sub-menu{
 	display: none;
@@ -100,4 +104,18 @@ svg {
 .save-div i{
     background-color: green;
     margin-right: 10px;
+}
+.info-box p{
+    display: flex;
+    align-items: center;
+    margin-left: 10px;
+}
+.save-button button{
+    height: 50px;
+    box-shadow: none;
+    border: none ;
+    text-align: center;
+}
+.infos{
+	
 }

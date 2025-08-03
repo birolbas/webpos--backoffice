@@ -2,9 +2,14 @@ import { useState } from 'react'
 import styles from './StaticStyle.module.css'
 import MenuProducts from '../MenuSettings/MenuSettings'
 import Taxes from '../MenuSettings/Taxes'
+import Category from '../MenuSettings/Category'
 function App() {
-	const [activeContent, setActiveContent] = useState("Taxes")
-
+	const [activeContent, setActiveContent] = useState("Category")
+	const contentNames = {
+		"MenuProducts": "Menü Ürünleri",
+		"Taxes": "Vergiler",
+		"Category": "Kategoriler"
+	}
 	function openSubMenu(e){
 		const mainMenu = e.target.closest("li")
 		const isOpen = mainMenu.getElementsByClassName(styles["sub-menu"])[0].style.display 
@@ -49,7 +54,7 @@ function App() {
 						<div className={styles["sub-menu"]}>
 							<ul>
 								<li onClick={()=>setActiveContent("MenuProducts")}>Menü Ürünleri</li>
-								<li>Kategoriler</li>
+								<li onClick={()=>setActiveContent("Category")}>Kategoriler</li>
 								<li onClick={()=>setActiveContent("Taxes")}>Vergiler</li>
 								<li>Ürün Alt Kalemleri</li>
 							</ul>
@@ -89,9 +94,16 @@ function App() {
 				</ul>
 			</div>
 			<div className={styles["content"]}>
-				<h1>Hoşgeldiniz! "Restorant Adı"</h1>
+				<div className={styles["middle-top-bar"]}>
+					<div className={styles["infos"]} >
+						<h1>{contentNames[activeContent]}</h1>
+						<p>TEST DÜKKAN</p>
+					</div>
+
+				</div>
 				{activeContent === "MenuProducts" && <MenuProducts />}
 				{activeContent === "Taxes" && <Taxes/>}
+				{activeContent === "Category" && <Category/>}
 			</div>
 		</div>
 	)
