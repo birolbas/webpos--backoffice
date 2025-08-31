@@ -1,0 +1,382 @@
+.page-container{
+    backdrop-filter: blur(10px);
+}
+.shown{
+    display: flex !important;
+}
+.table-options{
+    width: 100%;
+    height: 100%;
+    background-color: #272736;
+    flex-direction: row;
+    border-radius: 10px;
+    display: flex;
+
+}
+.tables-to-drag-container{
+    margin: 1rem;
+    padding: 1rem;
+    background-color: #1a1a24;
+    width: calc(100% - 4rem);
+    display: inline-flex;
+    border-radius: 15px;
+    height: 100%;
+}
+.tables-to-drag-buttons{
+    display: flex;
+    min-width: 150px;
+    margin-right: 1rem;
+    border-radius: 15px;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    background-color: #2d2d3f;
+    border: none;
+    color: white;
+    cursor: pointer;
+}
+.table-grid-options-container{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    background-color: white;
+}
+.grid-layout-floor-options{
+    margin: 1rem;
+    padding: 1rem;
+    border-radius: 15px;
+    width: calc(100% - 4rem);
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    background-color: #f8fafc;
+    margin-bottom: 5px;
+    border: 1px solid #cbd5e1;
+    justify-content: space-between;
+}
+
+.grid-layout-floor-options span{
+    display: inline-block;
+    margin: 25px 5px 25px 10px;
+    font-size: 25px;
+}
+.grid-layout-floor-options input{
+    margin-top: 25px;
+    height: 30px;
+    width: 30px;
+}
+.floor-options-save{
+    display: flex;
+}
+.new-table{
+    width: 10%;
+    margin-left: 1rem;
+    margin-right: 1rem;
+    border-radius: 15px;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    background-color: #2d2d3f;
+    border: none;
+    color: white;
+    cursor: pointer;
+}
+.new-table{
+    background-color: green;
+    font-size: 40px;
+
+}
+.new-table-input-box {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 2px solid #272736;
+    border-radius: 15px;
+    background-color: #1a1a24; 
+    z-index: 1000;
+
+}
+.new-table-input-box h1{
+    color:white;
+    text-align: center;
+    background-color: #2d2d3f;
+    margin-top: 0px;
+    border-radius: 15px;
+    padding: 15px 30px 15px 30px;
+}
+.new-table-input-box h2{
+    color: white;
+    padding: 15px 30px 0px 30px;
+    margin-bottom: 0px;
+}
+.new-table-input-box button{
+    border-radius: 0px;
+    height: 50px;
+    width: 40%;
+    margin:20px 0px 5px 0px;
+    background-color: #4361ee;
+    color: white;
+}
+
+.save-new-button{
+    width: 50%;
+    margin-right: 30px;
+}
+.save-new-button button{
+    width: 100%;
+}
+.cancel-new-button{
+    width: 50%;
+}
+.cancel-new-button button{
+    width: 100%;
+}
+.choose-create-floor{
+    background-color: #1a1a24;
+    display: none;
+    position: absolute;
+    flex-direction: column;
+    width: 200px;
+    border-radius: 15px;
+    border: 2px solid #272736;
+    z-index: 999;
+}
+.choose-create-floor h1{
+    color:white;
+    text-align: center;
+    background-color: #2d2d3f;
+    margin-top: 0px;
+    border-radius: 15px;
+    padding: 15px 30px 15px 30px;
+    font-size: 20px;
+}
+.choose-create-floor h2{
+    color: white;
+    margin-bottom: 0px;
+    font-size: 20px;
+}
+.choose-create-floor input{
+    background-color: #2d2d3f;
+    border: 0px;
+    border-radius: 5px;
+    outline: none;
+    width: 100%;
+    height: 30px;
+    color: white;
+    padding: 0px;
+    margin: 0px;
+}
+.floors-container{
+    display: flex;
+    flex-direction: column;
+}    
+.floors{
+    display: inline-flex;
+    width: 100%;
+    margin-left: 20px;
+    }
+.floor-name{
+    display: flex;
+    justify-content: space-between;
+}
+.floor-name button{
+    width: 100%;
+    margin: 0px;
+    margin-bottom: 10px;
+}
+.delete-floor button{
+    margin: 0px;
+    align-items: center;
+}
+.delete-floor svg{
+    align-items: center;
+}
+.new-table-input{
+    padding: 0px 30px 15px 30px;
+    border-radius: 4px;
+    width: 300px;
+    box-shadow: none;
+}
+.new-table-input input{
+    background-color: #2d2d3f;
+    border: 0px;
+    border-radius: 5px;
+    outline: none;
+    width: 100%;
+    height: 30px;
+    color: white;
+}
+
+.grid-options{
+    padding-left: 1rem;
+    padding-right: 2rem;
+    display: flex;
+    flex-direction: row;
+    margin-right: 1rem;
+    border: 1px solid #d1d3d6;
+    border-radius: 16px;
+    background-color: #e5e7eb;
+}
+.save-layouts{
+    margin-top: auto;
+    margin-bottom: auto;
+}
+.save-layouts button{
+    padding: 1rem;
+    align-items: center;
+    border-radius: 16px;
+    border: 1px solid #d1d3d6;
+    background-color: green;
+    color: white;
+
+}
+.floor-options{
+    display: flex;
+    flex-direction: row;
+    text-align: center;
+    position: relative;
+    margin-right: 50px;
+    z-index: 2;
+    justify-content: center;
+    gap: 10px;
+    align-items: center;
+}
+.floor-options button{
+    border-radius: 0px;
+    margin-bottom: 0px;    
+    margin-left: 0px;
+    background-color:#2d2d3f;
+    color: white;
+    margin-right: 0px;
+    height: 40px;
+    width: 80px;
+    border:none;
+}
+.new-floor button{
+    background-color: green;
+    border: none;
+}
+
+.save-button button{
+    width: 150px;
+    background-color: green;
+    border-radius: 15px;
+    color: white;
+}
+.grid-layout{
+    height: 100%;
+    background-color: white;
+    display: grid;
+    grid-template-columns: repeat(5,1fr);
+    grid-template-rows: repeat(5,1fr);
+    padding: 15px;
+    gap: 10px;
+    position: relative;
+
+}
+.grid-items{
+    border-radius: 15px;
+    position: relative;
+    border: 1px dashed #cbd5e1;
+
+}
+.plus-button button{
+    height: 100%;
+    width: 100%;
+    margin: 0px;
+    border-radius: 15px;
+    background-color: white;
+    color: white;
+    border: 2px dashed #cbd5e1;
+    font-size: 60px;
+    color: #9ca3af;
+}
+.buttons-container{
+    width: 100%;
+    height: 100%;
+}
+.plus-button{
+    width: 100%;
+    height: 100%;
+    background-color: white;
+
+}
+.trash-button{
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: none;
+
+}
+.trash-button button{
+    font-size: 40px;
+    border-radius: 15px;
+    background-color: red;
+
+}
+.trash-button i{
+    background-color: red;
+    border-radius: 15px;
+
+
+}
+.grid-save{
+    display: flex;
+    flex-direction: column;
+}
+.grid-save button{
+    border-radius: 15px;
+    width: 150px;
+    justify-self: center;
+    align-items: center;
+    color: white;
+    background-color: #4b5563;
+}
+.info{
+    display: flex;
+    color: white;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    
+}
+.floor-buttons{
+    background-color: white;
+}
+.new-floor-input-box {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 2px solid #272736;
+    border-radius: 15px;
+    background-color: #1a1a24; 
+}
+.new-floor-input-box h1{
+    color:white;
+    text-align: center;
+    background-color: #2d2d3f;
+    margin-top: 0px;
+    border-radius: 15px;
+    padding: 15px 30px 15px 30px;
+}
+.new-floor-input-box h2{
+    color: white;
+    padding: 0px 0px 0px 0px !important;
+    margin-bottom: 0px;
+    text-align: left;
+    font-size: 15px;
+}
+.new-floor-input-box button{
+    border-radius: 0px;
+    height: 50px;
+    width: 40%;
+    margin:20px 0px 5px 0px;
+    background-color: #4361ee;
+    color: white;
+}

@@ -1,15 +1,10 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import staticStyles from '../main/StaticStyle.module.css'
 import styles from './Category.module.css'
 function Category() {
 
-    const [upperCategories, setUpperCategories] = useState([{
-        categoryName: "üst",
-        subCategories: []
-    }])
-    const [subCategories, setSubCategories] = useState([{
-        categoryName: "alt"
-    }])
+    const [upperCategories, setUpperCategories] = useState([])
+    const [subCategories, setSubCategories] = useState([])
     const [isDragOpen, setIsDragOpen] = useState(false)
 
     function chooseCategory() {
@@ -145,7 +140,27 @@ function Category() {
         setSubCategories(tempSubList)
     }
 
+    const saveCategoryToDB = async () => {
+        const response = await fetch("http://localhost:5000/saveCategories", {
+            method: "POST",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(upperCategories)
+        })
+    }
 
+    const getCategoryFromDB = async () => {
+        const response = await fetch("http://localhost:5000/getCategories")
+        const data = await response.json()
+        console.log("data", data[0][0])
+        setUpperCategories(data[0][0])
+    }
+
+    useEffect(()=>{
+        getCategoryFromDB()
+    },[])
     return <><div className={staticStyles["content-container"]}>
         <div className={staticStyles["info-container"]}>
             <div className={staticStyles["save-div"]}>
@@ -157,7 +172,7 @@ function Category() {
                         </svg>Yeni kategori ekleyebilir, alt kategoriler ekleyerek daha spesifik gruplandırma yapabilirisiniz. </p>
                 </div>
                 <div className={staticStyles["save-button"]}>
-                    <button>DEĞİŞİKLİKLERİ KAYDET</button>
+                    <button onClick={()=>saveCategoryToDB()} >DEĞİŞİKLİKLERİ KAYDET</button>
                 </div>
             </div>
             <div className={styles["category-input-container"]}>

@@ -7,7 +7,6 @@ function MenuSettings() {
     return <>
         <div className={staticStyles["content-container"]}>
             {activeContent === "MenuProducts" && <MenuProducts/>}
-            {activeContent === "Taxes" && <Taxes/>}
         </div>
     </>
 }

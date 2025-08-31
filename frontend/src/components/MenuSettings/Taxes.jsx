@@ -18,8 +18,8 @@ function Taxes() {
     const getTaxesFromDB = async () =>{
         const response = await fetch("http://localhost:5000/getTaxes")
         const data = await response.json()
-        console.log("data", data[0][2])
-        setTaxes(data[0][2])
+        console.log("data", data[0][0])
+        setTaxes(data[0][0])
     }
     useEffect(()=>{
         getTaxesFromDB()
@@ -86,8 +86,8 @@ function Taxes() {
                         <div key={index} className={styles["tax-cards"]}>
                             <div className={styles["tax-card-info"]}>
                                 <button className={styles["tax-card"]}>
-                                    <div id="tax-id">{tax.taxId}</div> 
-                                    <div id="tax-percent">{tax.taxPercent}%</div>
+                                    <div id={styles["tax-id"]}>{tax.taxId}</div> 
+                                    <div id= {styles["tax-percent"]}>{tax.taxPercent}%</div>
                                 </button>
                             </div>
                             <div onClick={() => deleteTax(index)} className={styles["tax-card-delete"]}>

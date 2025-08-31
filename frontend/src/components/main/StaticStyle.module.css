@@ -15,17 +15,20 @@ body {
 	display: flex;
 }
 .left-bar {
-	padding: 1rem;
- 	width: 15%;
+	padding-right: 1rem;
+ 	width: 10%;
   	height: 100vh;
 }
 .left-bar h1 {
   	color: white;
-  	margin-top: 0px;
+  	margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
 }
 ul {
   	list-style-type: none;
 	padding: 0px;
+    margin-bottom: 1rem;
+
 }
 li {
   	color: white;
@@ -53,8 +56,9 @@ svg {
 	display: flex;
 	margin-bottom: 10px;
 }
+
 .content{
-	width: 85%;
+	width: 90%;
 }
 .content h1{
 	color: white;
@@ -65,18 +69,19 @@ svg {
 	background-color:  white;
 	height: 100vh;
 	overflow-y: auto;
+    border-top-left-radius: 16px;
 }
 .sub-menu{
 	display: none;
-	background-color: #101016;
-	transition: transform 0.3s ease;
+	background-color: #272736;
+    	transition: transform 0.3s ease;
 }
-
 .sub-menu ul li{
 	min-height: 40px;
 	margin-left: 1rem ;
 	text-align: left;
 	justify-content: center;
+    
 }
 .rotate-down {
   	transform: rotate(90deg);
@@ -114,8 +119,90 @@ svg {
     height: 50px;
     box-shadow: none;
     border: none ;
-    text-align: center;
+    display: flex;
+    justify-content: center;
+    font-size: 1rem;
 }
-.infos{
-	
+.input-container{
+    display: none;
+    padding: 2rem;
+    border: 1px solid #3a3a4e;
+    position: fixed;
+    top: 50%;
+    right: 50%;
+    transform: translate(50%, -50%);
+    flex-direction: column;
+    background-color: #1a1a2e;
+    width: 400px;
+    border-radius: 15px;
+    z-index: 999;
+}
+.input-container h1{
+    color: white;
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+}
+.input-container p {
+    color: white;
+    margin-bottom: 1rem;
+}
+.input-container input{
+    margin-bottom: 1rem;
+    background-color: #2a2a3e !important;    
+    border: 1px solid #3a3a4e;
+    width: 100%;
+    height: 30px;
+    padding-left: 1rem;
+
+    border-radius: 6px;
+    color: white;
+}
+.input-container select{
+    margin-bottom: 1rem;
+    background-color: #2a2a3e !important;    
+    border: 1px solid #3a3a4e;
+    width: 100%;
+    height: 30px;
+    padding-left: 1rem;
+    border-radius: 6px;
+    color: white;
+}
+.input-container button{
+    background-color: #4f46e5;
+    border: none;
+}
+.two-form{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    gap: 1rem;
+}
+
+.form{
+    width: 50%;
+}
+.action-buttons {
+    display: flex;
+    justify-content: right;
+}
+.action-buttons button{
+    border-radius: 16px;
+    color: white;
+    width: 80px;
+    height: 40px;
+}
+.action-buttons :first-child{
+    margin-right: 1rem;
+}
+.table-banner {
+    display: flex;
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+.title{
+    padding: 1rem;
+    width: 100%;
+    font-weight: bold;
+    border: 1px solid #e5e7eb;
+    color: #352f36;
 }

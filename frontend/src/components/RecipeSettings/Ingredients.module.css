@@ -1,0 +1,36 @@
+.ingredient-name{
+    padding:0rem 1rem;
+}
+.ingredient-name input{
+    width: 100%;
+    border: 1px solid rgb(221, 221, 221);
+    height: 2rem;
+}
+.ingredient-unit{
+
+}
+.ingredient-unit select{
+    width: 100%;
+    border: 1px solid rgb(221, 221, 221);
+    height: 2rem;
+}
+.ingredient-cost{
+    padding:0rem 1rem;
+}
+.ingredient-cost input{
+    width: 100%;
+    border: 1px solid rgb(221, 221, 221);
+    height: 2rem;
+}
+.ingredient{
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+    padding: 1rem 2rem; 
+}
+.ingredient p{
+    border-left: 1px solid white;
+    margin-left: 1rem;
+    align-items: center;
+    color:#374151;
+
+}

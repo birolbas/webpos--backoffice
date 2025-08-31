@@ -1,0 +1,9 @@
+.recipe-option{
+    border: 1px solid white;
+    margin-bottom: 1rem;
+    padding: 1rem;
+    z-index: 3;
+}
+.recipe-option h1{
+    margin-bottom: 1rem;
+}

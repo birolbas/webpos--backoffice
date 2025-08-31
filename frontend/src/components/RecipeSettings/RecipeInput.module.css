@@ -1,0 +1,71 @@
+.recipe-name-input{
+    padding: 1rem;
+    border-radius: 16px;
+    margin-left: 3rem !important;
+}
+.ingredients-container{
+    padding: 1rem;
+    padding-top: 0rem;
+}
+.table-headers{
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr 1fr ;
+    padding: 1rem 0rem 1rem 0rem;
+    border: 1px solid #e5e7eb;
+    color: #352f36;
+}
+
+.table-headers p{
+    padding-left: 1rem;
+    text-align: left;
+    border-right: 1px solid #94989c;
+    font-weight: bolder;
+    color: #374151; 
+}
+.input{
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr 1fr ;
+    height: 3rem;
+    align-items: center;
+}
+.action-container{
+    display: flex;
+}
+.ingredient-name{
+    padding:0rem 1rem;
+}
+.ingredient-name select{
+    width: 100%;
+    border: 1px solid rgb(221, 221, 221);
+    height: 2rem;
+}
+.ingredient-unit{
+    width: 100%;
+    text-align: center;
+}
+.ingredient-amount{
+    padding:0rem 1rem;
+}
+.ingredient-amount input{
+    width: 100%;
+    border: 1px solid rgb(221, 221, 221);
+    height: 2rem;
+}
+.new-ingredient{
+    margin-top: 1rem;
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    color:#020f24;
+    font-weight: 600;
+    font-size: 26px;
+}
+.cost-container p{
+    display: flex;
+    justify-content: end;
+    padding: 1rem;
+    background-color: rgb(232, 245, 232);
+    color: #0a8a28;
+    font-weight: 600;
+    font-size: 20px;
+}

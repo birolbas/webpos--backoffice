@@ -9,11 +9,10 @@
 }
 .append-button{
     width: 200px;
-    height: 160px;
-    margin: 1rem;
+    margin-left: 1rem;
     font-size: 44px;
+    border-radius: 16px;
     background-color:green;
-    box-shadow: 0px;
     border: 0;
 }
 .tax-card{
@@ -48,14 +47,32 @@
 .tax-cards:hover .tax-card-delete{
     display: flex;
     flex-direction: column;
-    width: 160px;
     height: 160px;
-    margin: 1rem;
-    font-size: 44px;
     background-color:white;
+    padding: 1rem;
     box-shadow: 0px;
-    border: 0;
-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+    border: 3px solid #4f46e5;
+    border-radius: 16px;
+    margin-left: 1rem;
+    text-align: center;
+}
+.tax-card-info{
+    border: 3px solid #4f46e5;
+    border-radius: 16px;
+    margin-left: 1rem;
+    text-align: center;
+}
+#tax-id{
+    font-size: 25px;
+    margin-bottom: 1rem;
+    color: #374151;
+}
+#tax-percent{
+    color: #4f46e5;
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
 }
 .tax-cards:hover .tax-card-info{
     display: none;
