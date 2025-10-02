@@ -3,6 +3,8 @@ import staticStyles from '../main/StaticStyle.module.css'
 import styles from './Taxes.module.css'
 function Taxes() {
     const [taxes, setTaxes] = useState([])
+    const [taxInputId, setTaxInputId] = useState("")
+    const [taxInputPercent, setTaxInputPercent] = useState()
     function createTax() {
         document.getElementsByClassName(styles["tax-input"])[0].style.display = "flex"
     }
@@ -22,6 +24,9 @@ function Taxes() {
         setTaxes(data[0][0])
     }
     useEffect(()=>{
+        console.log(taxes)
+    },[taxes])
+    useEffect(()=>{
         getTaxesFromDB()
     },[])
     const saveTaxesToDB = async () => {
@@ -36,27 +41,25 @@ function Taxes() {
     }
 
     function saveTax() {
-        const taxId = document.getElementById("TaxId").value
-        const taxPercent = document.getElementById("TaxPercent").value
-        if (taxId == "") {
+        if (taxInputId == "") {
             document.getElementById("TaxId").placeholder = "Vergi ismi boş bırakılmamalıdır!"
         }
-        if (taxPercent == "") {
+        if (taxInputPercent == "") {
             document.getElementById("TaxPercent").placeholder = "Vergi oranı boş bırakılmamalıdır!"
         }
-        const existingIndex = taxes.findIndex(t => t.taxId === taxId)
-        if (taxId != "" && taxPercent != "" && existingIndex == -1) {
+        const existingIndex = taxes.findIndex(t => t.taxId === taxInputId)
+        if (taxInputId != "" && taxInputPercent != "" && existingIndex == -1) {
             const object = {
-                taxId: taxId,
-                taxPercent: taxPercent
+                taxId: taxInputId,
+                taxPercent: Number(parseFloat(taxInputPercent).toFixed(2))
             }
             setTaxes([...taxes, object])
-            document.getElementById("TaxId").value = ""
-            document.getElementById("TaxPercent").value = ""
+            setTaxInputPercent("")
+            setTaxInputId("")
             document.getElementById("TaxId").placeholder = "VERGİ İSMİ"
             document.getElementById("TaxPercent").placeholder = "1-100 ARASINDA TAM SAYI GİRİNİZ"
         } else if (existingIndex != -1) {
-            document.getElementById("TaxId").value = ""
+            setTaxInputId("")
             document.getElementById("TaxId").placeholder = "BU İSİMDE BİR VERGİ SEÇENEĞİ MEVCUT"
         }
 
@@ -106,9 +109,9 @@ function Taxes() {
             <div className={styles["tax-input"]}>
                 <h1>Yeni Vergi Ekle</h1>
                 <p>Vergi Adı</p>
-                <input type="text" placeholder="VERGİ İSMİ" name="" id="TaxId" />
+                <input onChange={(e)=>setTaxInputId(e.target.value)} type="text" placeholder="VERGİ İSMİ" name="" id="TaxId" />
                 <p>Vergi Oranı (%)</p>
-                <input type="number" placeholder="1-100 ARASINDA TAM SAYI GİRİNİZ" name="" id="TaxPercent" />
+                <input onChange={(e)=>setTaxInputPercent(e.target.value)} type="number" placeholder="1-100 ARASINDA TAM SAYI GİRİNİZ" name="" id="TaxPercent" />
                 
                 <div className={styles["action-buttons"]}>
                     <button onClick={() => closeCreateTax()} style={{ backgroundColor: "#374151" }} >İptal</button>

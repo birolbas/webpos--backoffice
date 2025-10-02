@@ -1,25 +1,9 @@
 import { useState } from 'react'
-import styles from './StaticStyle.module.css'
-import MenuProducts from '../MenuSettings/MenuSettings'
-import Taxes from '../MenuSettings/Taxes'
-import Category from '../MenuSettings/Category'
-import PaymentMethods from '../GeneralSettings/PaymentMethods'
-import TableSettings from '../GeneralSettings/TableLayout'
-import TableLayout from '../GeneralSettings/TableLayout'
-import AddRecipe from '../RecipeSettings/AddRecipe'
-import Ingredients from '../RecipeSettings/Ingredients'
+import styles from '../main/StaticStyle.module.css'
+import { Link } from 'react-router-dom'
 
-function App() {
-	const [activeContent, setActiveContent] = useState("Recipes")
-	const contentNames = {
-		"MenuProducts": "Menü Ürünleri",
-		"Taxes": "Vergiler",
-		"Category": "Kategoriler",
-		"PaymentMethods": "Ödeme Seçenekleri",
-		"TableLayout":"Masa Düzeni",
-		"Recipes":"Reçete Ekle",
-		"Ingredients": "Malzemeler"
-	}
+
+function LeftBar() {
 	function openSubMenu(e) {
 		const mainMenu = e.target.closest("li")
 		const isOpen = mainMenu.getElementsByClassName(styles["sub-menu"])[0].style.display
@@ -38,7 +22,6 @@ function App() {
 	}
 
 	return (
-		<div className={styles["page-container"]}>
 			<div className={styles["left-bar"]}>
 				<h1 style={{ textAlign: "center" }}>RESTO</h1>
 				<ul>
@@ -64,10 +47,21 @@ function App() {
 						</div>
 						<div className={styles["sub-menu"]}>
 							<ul>
-								<li onClick={() => setActiveContent("MenuProducts")}>Menü Ürünleri</li>
-								<li onClick={() => setActiveContent("Category")}>Kategoriler</li>
-								<li onClick={() => setActiveContent("Taxes")}>Vergiler</li>
-								<li>İlave Grupları</li>
+								<Link to="/menü-ürünleri">
+									<li>Menü Ürünleri</li>
+								</Link>
+								<Link to="/kategoriler">
+									<li>Kategoriler</li>
+								</Link>
+								<Link to="/vergiler">
+									<li>Vergiler</li>
+								</Link>
+								<Link to="/ilave-grupları">
+									<li>İlave Grupları</li>
+								</Link>
+								<Link to="/ilave-grupları/ilave-oluştur"> 
+									<li>İlave Ürün</li>
+								</Link>
 							</ul>
 						</div>
 					</li>
@@ -87,19 +81,42 @@ function App() {
 						</div>
 						<div className={styles["sub-menu"]}>
 							<ul>
-								<li onClick={() => setActiveContent("PaymentMethods")}>Ödeme Yöntemleri</li>
-								<li onClick={() => setActiveContent("TableLayout")}>Masa Ayarları</li>
+								<Link to="/ödeme-seçenekleri">
+									<li>Ödeme Yöntemleri</li>
+								</Link>
+								<Link to="/masa-düzeni">
+									<li>Masa Ayarları</li>
+								</Link>
+								<Link to="/indirim">
+									<li>İndirim Ayarları</li>
+								</Link>
+								<Link to="/servis-ücreti">
+									<li>Servis Ücreti Ayarları</li>
+								</Link>								
 							</ul>
 						</div>
 					</li>
 
 					<li>
-						<div className={styles["main-menu"]}>
+						<div className={styles["main-menu"]} onClick={(e) => openSubMenu(e)}>
 							<div style={{display:"flex"}}>
 							<svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" className="bi bi-box" viewBox="0 0 16 16">
 								<path d="M8.186 1.113a.5.5 0 0 0-.372 0L1.846 3.5 8 5.961 14.154 3.5zM15 4.239l-6.5 2.6v7.922l6.5-2.6V4.24zM7.5 14.762V6.838L1 4.239v7.923zM7.443.184a1.5 1.5 0 0 1 1.114 0l7.129 2.852A.5.5 0 0 1 16 3.5v8.662a1 1 0 0 1-.629.928l-7.185 2.874a.5.5 0 0 1-.372 0L.63 13.09a1 1 0 0 1-.63-.928V3.5a.5.5 0 0 1 .314-.464z" />
 							</svg><p>Stok Takibi</p></div>
-							</div>
+														<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right-short" viewBox="0 0 16 16">
+								<path fill-rule="evenodd" d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8" />
+							</svg>
+						</div>
+						<div className={styles["sub-menu"]}>
+							<ul>
+								<Link to="/stok-durumu">
+									<li>Stok Durumu</li>
+								</Link>
+								<Link to="/stok-kategorileri">
+									<li>Stok Kategorileri</li>
+								</Link>
+							</ul>
+						</div>				
 
 					</li>
 
@@ -119,9 +136,16 @@ function App() {
 						</div>
 						<div className={styles["sub-menu"]}>
 							<ul>
-								<li onClick={() => setActiveContent("Recipes")}>Reçete Ekle</li>
-								<li onClick={() => setActiveContent("Invoices")}>Faturalar</li>
-								<li onClick={() => setActiveContent("Ingredients")}>Malzemeler</li>
+								<Link to="/reçeteler">
+									<li>Reçeteler</li>
+								</Link>
+								<Link>
+									<li>Faturalar</li>
+								</Link>
+								<Link to="/malzemeler">
+									<li>Malzemeler</li>
+								</Link>								
+
 							</ul>
 						</div>
 					</li>
@@ -137,24 +161,7 @@ function App() {
 					</li>
 				</ul>
 			</div>
-			<div className={styles["content"]}>
-				<div className={styles["middle-top-bar"]}>
-					<div className={styles["infos"]} >
-						<h1>{contentNames[activeContent]}</h1>
-						<p>TEST DÜKKAN</p>
-					</div>
-
-				</div>
-				{activeContent === "TableLayout" && <TableLayout/>}
-				{activeContent === "PaymentMethods" && <PaymentMethods/>}
-				{activeContent === "MenuProducts" && <MenuProducts />}
-				{activeContent === "Taxes" && <Taxes />}
-				{activeContent === "Category" && <Category />}
-				{activeContent === "Recipes" && <AddRecipe />}
-				{activeContent === "Ingredients" && <Ingredients /> }
-			</div>
-		</div>
 	)
 }
 
-export default App
+export default LeftBar

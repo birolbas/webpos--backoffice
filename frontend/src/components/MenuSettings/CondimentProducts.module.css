@@ -1,0 +1,170 @@
+.page-split{
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+    width: auto;
+    gap:1rem
+}
+.append-menu-item{
+    height: 10%;
+    display: flex;
+    padding: 20px 60px 20px 30px;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 15px;
+    border-bottom: 0px;
+    margin-bottom: 0.5rem;
+}
+.name-input{
+    display: flex;
+    flex-direction: column;
+}
+
+label{
+    font-size: 22px;
+    font-weight: 400;
+    margin-bottom: 10px;
+}
+.name-input input{
+    height: 2rem;
+    border-radius: 0.4rem;
+    border: 2px solid black;
+    background-color: #F9FAFB;
+    font-size: 18px;
+    margin-bottom: 1rem;
+    padding: 10px;
+    width: 80% !important;
+}
+.choice-groups{
+    margin-bottom: 1rem;
+}
+.choice-group{
+    padding: 1rem;
+    border-radius: 0.4rem;
+    background-color: #F9FAFB;
+    margin-bottom: 1rem;
+}
+.name-input input:focus{
+    border: 2px solid #4F46E5;
+    outline: none;
+}
+.add-new-group-button{
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    width: 100%;
+    background-color: white;
+    align-items: center;
+    height: 3rem;
+    color: #353535;
+    border: 2px dashed #e5e7eb;
+    border-radius: 0.4rem;
+}
+.add-new-group-button p{
+    justify-content: center;
+    align-items: center;
+    font-size: 18px;
+    font-weight: 500;
+}
+.group-infos{
+    display: grid;
+    grid-template-columns: 2.5fr 1fr 0.5fr;
+    border-radius: 0.4rem;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+.group-infos select{
+    height: 2rem;
+    border-radius: 0.4rem;
+    border: 2px solid black;
+    background-color: #F9FAFB;
+}
+.must-choose{
+    display: flex;
+    flex-direction: column;
+}
+.delete-group{
+    display: flex;
+    justify-content: end;
+}
+.items-in-group{
+    display: flex;
+    text-align: center;
+    flex-direction: column;
+    border: 2px dashed #e5e7eb;
+    padding: 1rem;
+    justify-content: center;
+    border-radius: 0.4rem;
+    min-height: 4rem;
+}
+.item-in-group-info{
+    display: flex;
+    align-items: center;
+}
+.item-in-group{
+    display: flex;
+    padding: 1rem;
+    background-color: white;
+    margin-bottom: 1rem;
+    border-radius: 0.4rem;
+    justify-content: space-between;
+}
+.delete-item-in-group{
+    display: flex;
+    float: right;
+    justify-content: end;
+    align-items: center;
+    color: red;
+}
+.condiment-items{
+    margin-top: 1rem;
+}
+.condiment-group-header{
+    display: flex;
+    font-size: 16px;
+    font-weight: 800;
+}
+.group-items-name{
+    font-size: 16px;
+}
+.group-items-price{
+    font-size: 14px;
+}
+.group-item{
+    padding: 1rem 0rem;
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+.group-item:hover{
+    background-color: #e5e7eb;
+    border-radius: 0.4rem;
+}
+.saved-condiment-groups-container{
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1rem;
+}
+.saved-condiment-group {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+    padding: 1.5rem;
+    border-radius: 0.4rem;
+}
+.saved-condiment-group-headers{
+    display: flex;
+    justify-content: space-between;
+}
+.delete-edit-saved-condiment{
+    display: flex;
+}
+.saved-condiment-categorie{
+    display: flex;
+    padding: 1rem;
+    flex-direction: column;
+}
+.saved-condiment-categorie p{
+    margin-right: 1rem;
+    font-size: 22px;
+}
+.saved-condiment-info{
+    display: flex;
+}

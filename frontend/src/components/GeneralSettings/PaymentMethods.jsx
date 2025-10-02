@@ -5,6 +5,7 @@ function PaymentMethods() {
     const [paymentMethods, setPaymentMethods] = useState([])
     const [isNewProduct, setIsNewProduct] = useState(true)
     const [editIndex, setEditIndex] = useState(0)
+    const [isNewMethod, setIsNewMethod] = useState(false)
 
     const setDataToDB = async (paymentM) =>{
         const response = await fetch("http://localhost:5000/savePaymentMethods",{
@@ -29,20 +30,14 @@ function PaymentMethods() {
     function closeCreateProduct(){
         document.getElementsByClassName(staticStyles["input-container"])[0].style.display = "none"
     }
-
-    function createNewMethod(isEdit){
-        if(isEdit){
-            setIsNewProduct(false)
-        }else{
-            setIsNewProduct(true)
-        }
-        document.getElementsByClassName(staticStyles["input-container"])[0].style.display = "flex"
-    }
+    useEffect(()=>{
+        console.log(paymentMethods)
+    },[paymentMethods])
     function saveMethod(){
         if(isNewProduct){
             const name = document.getElementById("MethodName").value
             const existingIndex = paymentMethods.findIndex(pM=> pM.name === name)
-            const activeness = document.getElementById("Activeness").value
+            const includedIncome = document.getElementById("MethodIncludedIncome").value
             const commission = document.getElementById("MethodCommission").value
             if(name.length == 0){
                 console.log(name.length)
@@ -53,7 +48,7 @@ function PaymentMethods() {
             }else if(existingIndex == -1 ){
                 const object = {
                     name: name,
-                    activeness: activeness,
+                    includedIncome: includedIncome,
                     commission: commission
                 }
                 const tempPaymentMethods = [...paymentMethods]
@@ -74,7 +69,7 @@ function PaymentMethods() {
             console.log(existingIndex)
             if(existingIndex == editIndex || existingIndex ==-1 && newName.length > 0){
                 tempPaymentMethods[editIndex].name = document.getElementById("MethodName").value
-                tempPaymentMethods[editIndex].activeness = document.getElementById("Activeness").value
+                tempPaymentMethods[editIndex].includedIncome = document.getElementById("MethodIncludedIncome").value
                 tempPaymentMethods[editIndex].commission = document.getElementById("MethodCommission").value
                 setPaymentMethods(tempPaymentMethods)
                 setDataToDB(tempPaymentMethods)
@@ -94,9 +89,10 @@ function PaymentMethods() {
         setDataToDB(tempPaymentMethods)
     }
     function editMethod(index){
-        createNewMethod(true)
+        setIsNewMethod(true)
+        console.log([document.getElementById("MethodName").value])
         document.getElementById("MethodName").value = paymentMethods[index].name
-        document.getElementById("Activeness").value = paymentMethods[index].activeness
+        document.getElementById("MethodIncludedIncome").value = paymentMethods[index].includedIncome
         document.getElementById("MethodCommission").value = paymentMethods[index].commission
         setEditIndex(index)
     }
@@ -126,8 +122,8 @@ function PaymentMethods() {
                                     <p className = {method.commission > 0 ? styles["commission-percent-red"] : styles["commission-percent-green"]}>%{method.commission}</p>
                                 </div>
                                 <div className={styles["activeness"]}>
-                                    <h3>Durum</h3>
-                                    <p className = {method.activeness == "Active"  ? styles["activeness-green"] : styles["activeness-red"] }>{method.activeness}</p>
+                                    <h3>Ciroya Dahil Mi?</h3>
+                                    <p className = {method.includedIncome == "Evet"  ? styles["activeness-green"] : styles["activeness-red"] }>{method.includedIncome}</p>
                                 </div>
                             </div>
                         </div>
@@ -158,7 +154,7 @@ function PaymentMethods() {
                         </p>
                     </div>
                     <div className={staticStyles["save-button"]}>
-                        <button onClick={()=>createNewMethod()} >Yeni Ödeme Yöntemi</button>
+                        <button onClick={()=>setIsNewMethod(!isNewMethod)} >Yeni Ödeme Yöntemi</button>
                     </div>
                 </div>
             </div>
@@ -168,16 +164,17 @@ function PaymentMethods() {
             <div>
                 {paymentMethods.length > 0 ? PaymentMethodsFunc(): noPaymentOption()}
             </div>
+                {isNewMethod &&
                 <div className={staticStyles["input-container"]}>
                     <h1>Yeni Ödeme Metodu Ekle</h1>
                     <p>Metot Adı</p>
                     <input type="text" placeholder="METOT İSMİ GİRİNİZ" name="" id="MethodName" />
                     <div className={staticStyles["two-form"]}>
                         <div className={staticStyles["form"]}  >
-                            <p>Aktiflik</p>
-                            <select id="Activeness" required defaultValue="">
-                                <option value="Active">Aktif</option>
-                                <option value="Passive">Pasif</option>
+                            <p>Ciroya Dahil Mi?</p>
+                            <select id="MethodIncludedIncome" required defaultValue="">
+                                <option value="Evet">Evet</option>
+                                <option value="Hayır">Hayır</option>
                             </select>
                         </div>
                         <div className={staticStyles["form"]} >
@@ -190,6 +187,8 @@ function PaymentMethods() {
                         <button onClick={() => saveMethod()} >Kaydet</button>
                     </div>
                 </div>
+                
+                }
         </div>
     </>
 

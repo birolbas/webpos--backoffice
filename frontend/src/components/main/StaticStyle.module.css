@@ -5,9 +5,11 @@
 body {
 	margin: 0px !important;
   	overflow-y: hidden;  	
-	font-family: Arial, Helvetica, sans-serif;
+	font-family: Inter, Helvetica, sans-serif;
 	background-color: #272736;
-	
+}
+a{
+    text-decoration: none;
 }
 .page-container {
   	width: 100%;
@@ -15,8 +17,7 @@ body {
 	display: flex;
 }
 .left-bar {
-	padding-right: 1rem;
- 	width: 10%;
+ 	width: 16rem;
   	height: 100vh;
 }
 .left-bar h1 {
@@ -26,8 +27,8 @@ body {
 }
 ul {
   	list-style-type: none;
-	padding: 0px;
     margin-bottom: 1rem;
+    padding: 0rem 1rem;
 
 }
 li {
@@ -51,10 +52,38 @@ svg {
   	gap: 8px; 
 	padding-left: 12px;
 }
-
+.table-container{
+    padding: 1.5rem;
+    border-radius: 0.4rem;
+    margin-top: 1rem;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.15)
+}
+.table-container h1{
+    margin-bottom: 1rem;
+}
+.table-header-style{
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 0.5fr 0.5fr ;
+    padding: 1rem 2rem;
+    color: #352f36;
+    background-color: #eceef1f6;
+    gap: 3rem;
+}
+.table-item-style{
+    display: grid;
+    gap: 3rem;
+    padding: 1rem 2rem;
+    border-bottom: 1px solid #e5e7eb;
+    align-items: center
+}
+.table-item-style:hover{
+    background-color: #e5e7eb;
+    transition-duration: 200ms;
+}
 .main-menu{
 	display: flex;
 	margin-bottom: 10px;
+    justify-content: space-between;
 }
 
 .content{
@@ -66,10 +95,13 @@ svg {
 	margin-bottom: 1rem;
 }
 .content-container{
+    padding: 0rem 2rem;
 	background-color:  white;
 	height: 100vh;
 	overflow-y: auto;
     border-top-left-radius: 16px;
+    width: 100%;
+    flex: 1;
 }
 .sub-menu{
 	display: none;
@@ -110,10 +142,17 @@ svg {
     background-color: green;
     margin-right: 10px;
 }
+
 .info-box p{
     display: flex;
     align-items: center;
-    margin-left: 10px;
+}
+.info-box svg{
+    margin-right: 1rem;
+}
+.save-button{
+    display: flex;
+    gap: 1rem;
 }
 .save-button button{
     height: 50px;
@@ -122,9 +161,13 @@ svg {
     display: flex;
     justify-content: center;
     font-size: 1rem;
+    padding: 1rem;
+    border-radius: 0.4rem;
+    background-color: green;
+    color: white;
 }
 .input-container{
-    display: none;
+    display: flex;
     padding: 2rem;
     border: 1px solid #3a3a4e;
     position: fixed;
@@ -205,4 +248,24 @@ svg {
     font-weight: bold;
     border: 1px solid #e5e7eb;
     color: #352f36;
+}
+.action-container{
+    display: flex;
+    justify-content: end;
+    margin-top: 1rem;
+}
+.purple-button{
+    background-color: #4F46E5 !important;
+    color: white;
+    justify-content: center;
+    padding: 1rem;
+    border: none;
+    border-radius: 10px !important;
+}
+.table-filter-input{
+    border-radius: 0.4rem;
+    padding: 1rem;
+    font-size: 22px;
+    margin-bottom: 1rem;
+    outline: none;
 }

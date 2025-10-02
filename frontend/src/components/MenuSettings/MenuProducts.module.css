@@ -139,12 +139,7 @@
     height: 100%;
 }
 
-.content-container{
-	background-color: white;
-	border-top-left-radius: 20px;
-	background-color: white;
-	height: calc(100vh - 4rem);
-}
+
 .product-container{
     padding: 1rem;
     padding-top: 0rem;

@@ -1,55 +1,142 @@
-.recipe-name-input{
-    padding: 1rem;
+
+input:focus{
+    border: 2px solid #4F46E5 !important;
+}
+select:focus{
+    border: 2px solid #4F46E5 !important;
+}
+.recipe-information-container{
+    display: flex;
+    padding: 1.5rem;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+    flex-direction: column;
+    border-radius: 0.4rem;
+}
+.recipe-information-container h1{
+    margin-bottom: 1rem;
+}
+.recipe-info-inputs{
+    display: grid;
+    width: 100%;
+    gap: 2rem;
+    grid-template-columns: 1fr 1fr;
+}
+.recipe-name-input,
+.recipe-category-input{    
+    display: flex;
+    flex-direction: column;
     border-radius: 16px;
-    margin-left: 3rem !important;
+    width: auto;    width: auto;   
+}
+.recipe-name-input input,
+.recipe-category-input select{
+    width: 100%;
+    border: 2px solid #6b7280;
+    height: 2rem;
+    outline: none;
+    box-shadow: none;
+    border-radius: 0.4rem;
 }
 .ingredients-container{
-    padding: 1rem;
-    padding-top: 0rem;
+    padding: 1.5rem;
+    border-radius: 0.4rem;
+    margin-top: 1rem;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
 }
+.ingredients-container h1{
+    margin-bottom: 1rem;
+}
+.ingredient-container-headers{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+}
+
 .table-headers{
     display: grid;
-    grid-template-columns: 2fr 1fr 1fr 1fr 1fr ;
-    padding: 1rem 0rem 1rem 0rem;
-    border: 1px solid #e5e7eb;
+    grid-template-columns: 2fr 1fr 1fr 1fr 0.25fr 0.25fr ;
+    padding: 1rem 2rem;
     color: #352f36;
+    background-color: #eceef1f6;
+    gap: 3rem;
 }
 
 .table-headers p{
-    padding-left: 1rem;
     text-align: left;
-    border-right: 1px solid #94989c;
     font-weight: bolder;
     color: #374151; 
 }
+.input-container{
+    align-items: center;
+    padding: 2rem 2rem 0rem 2rem;
+}
 .input{
     display: grid;
-    grid-template-columns: 2fr 1fr 1fr 1fr 1fr ;
-    height: 3rem;
-    align-items: center;
+    flex-direction: column;
+    grid-template-columns: 2fr 1fr 1fr  0.25fr 0.25fr;
+    gap: 3rem;
+    margin-bottom: 1rem;
+}
+.input input,
+.input select{
+    border-radius: 0.4rem;
 }
 .action-container{
     display: flex;
 }
+.action-container svg{
+    color: red;
+}
+.action-container button{
+    background-color: #4F46E5;
+    color: white;
+    padding: 1rem;
+    border: none;
+    border-radius: 10px;
+}
+.ingredient-input-header{
+    padding-left: 1rem;
+    margin-bottom: 1rem;
+    font-weight: 600;
+
+}
 .ingredient-name{
     padding:0rem 1rem;
+    font-weight: 500;
 }
 .ingredient-name select{
     width: 100%;
-    border: 1px solid rgb(221, 221, 221);
+    border: 2px solid #6b7280;  
+    outline: none;
+    box-shadow: none;
     height: 2rem;
 }
 .ingredient-unit{
     width: 100%;
     text-align: center;
+    font-weight: 500;
+}
+.ingredient-unit input{
+    width: 100%;
+    border: 2px solid #6b7280;  
+    outline: none;
+    box-shadow: none;
+    height: 2rem;
 }
 .ingredient-amount{
     padding:0rem 1rem;
 }
 .ingredient-amount input{
     width: 100%;
-    border: 1px solid rgb(221, 221, 221);
+    border: 2px solid #6b7280;
     height: 2rem;
+    outline: none;
+    box-shadow: none;
+}
+.recipe-cost{
+    justify-content: center;
+    align-items: center;
+    display: flex;
 }
 .new-ingredient{
     margin-top: 1rem;
@@ -60,12 +147,62 @@
     font-weight: 600;
     font-size: 26px;
 }
-.cost-container p{
+
+.recipe-name{
+    padding-left: 1rem;
+    padding-right: 2rem;
     display: flex;
-    justify-content: end;
+    flex-direction: row;
+    margin-right: 1rem;
+    border: 1px solid #d1d3d6;
+    border-radius: 16px;
+    background-color: #e5e7eb;
+}
+.recipe-name input{
+    border: none;
+    outline: none;
+}
+.save-button{
+    border: none;
+    justify-content: center;
+}
+.cost-container{
+    display: flex;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+    flex-direction: column;
+    margin-top: 1rem;
     padding: 1rem;
-    background-color: rgb(232, 245, 232);
-    color: #0a8a28;
+}
+.cost-container p{
     font-weight: 600;
+    border-radius: 0.4rem;
     font-size: 20px;
+}
+.cost-types{
+    gap: 1rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    margin-top: 1rem;
+}
+.cost{
+    padding: 1rem;
+    background-color: #F3F4F6;
+    text-align: center;
+    border-radius: 0.4rem;
+}
+.cost p{
+    font-weight: 400;
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+}
+.cost span{
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+.dark-blue-button{
+    color: white;
+    padding: 0rem 1rem;
+    border: none;
+    background-color: green;
+    border-radius: 0.4rem;
 }

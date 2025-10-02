@@ -1,13 +1,17 @@
 .ingredient-name{
     padding:0rem 1rem;
+    font-weight: 500;
 }
 .ingredient-name input{
     width: 100%;
     border: 1px solid rgb(221, 221, 221);
     height: 2rem;
 }
-.ingredient-unit{
-
+.ingredient-headers h1{
+    color: black;
+    font-weight: 500;
+    font-size: 1.25rem;
+    padding: 1.5rem;
 }
 .ingredient-unit select{
     width: 100%;
@@ -22,10 +26,26 @@
     border: 1px solid rgb(221, 221, 221);
     height: 2rem;
 }
+.ingredient-invoice-names{
+    padding:0rem 1rem;
+    font-weight: 500;
+}
+.ingredient-invoice-names input{
+    width: 100%;
+    border: 1px solid rgb(221, 221, 221);
+    height: 2rem;
+}
 .ingredient{
     display: grid;
-    grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
-    padding: 1rem 2rem; 
+    grid-template-columns: 2fr 1fr 1fr 1fr 0.25fr 0.25fr;
+    padding: 1.5rem 1.5rem; 
+    border-bottom: 1px solid #e5e7eb;
+    align-items: center;
+    gap: 3rem;
+}
+.ingredient:hover{
+    background-color: #e5e7eb;
+    transition-duration: 200ms;
 }
 .ingredient p{
     border-left: 1px solid white;

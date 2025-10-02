@@ -1,16 +1,13 @@
 import staticStyles from "../main/StaticStyle.module.css";
 import styles from "./TableLayout.module.css";
-import { use, useEffect, useState } from "react";
+import {  useEffect, useState } from "react";
 function TableLayout() {
-    const [totalTables, setTotalTables] = useState([]);
-    const [isNewTable, setIsNewTable] = useState(false);
     const [newTableCol, setNewTableCol] = useState(0);
     const [newTableRow, setNewTableRow] = useState(0);
     const [row, setRow] = useState(5);
     const [col, setCol] = useState(5);
     const [matrix, setMatrix] = useState(25);
     const [layout, setLayout] = useState([]);
-    const [isFloor, setIsFloor] = useState(false);
     const [floors, setFloors] = useState([
         {
             Name: "İlk Kat",
@@ -22,6 +19,7 @@ function TableLayout() {
     const [floorData, setFloorData] = useState(floors[0]);
 
     const saveToDb = async () => {
+        console.log(floors)
         try {
             const response = await fetch("http://localhost:5000/table_grid_save", {
                 method: "POST",
@@ -47,12 +45,14 @@ function TableLayout() {
             const response = await fetch("http://localhost:5000/getTableData")
             if(response.ok){
                 const data = await response.json()
-                console.log(data[0])
+       
+                console.log("datafromdb",data[0][0])
                 const tempFloors = []
                 data[0].forEach((floor, index)=>{
                     tempFloors.push(floor[0])
+                    console.log("flooris",floor)
                 })
-                setFloors(tempFloors)
+                setFloors(data[0][0])
                 setFloorData(tempFloors[0])
             }
         } catch(error){
@@ -66,6 +66,7 @@ function TableLayout() {
     useEffect(()=>{
         console.log(floors)
     },[floors])
+    
     function changeMatrix() {
         setFloorData((prev) => ({
             ...prev,
@@ -74,9 +75,11 @@ function TableLayout() {
         const index = floors.findIndex(f=>f.Name == floorData.Name)
         const tempFloors = [...floors]
         tempFloors[index].tables = []
-        setFloors(tempFloors)
         const gridCol = document.getElementById("grid-col").value;
         const gridRow = document.getElementById("grid-row").value;
+        tempFloors[index].gridCol = parseInt(gridCol)
+        tempFloors[index].gridRow = parseInt(gridRow)
+        setFloors(tempFloors)
         console.log(gridCol, gridRow);
         setCol(gridCol);
         setRow(gridRow);
@@ -120,14 +123,16 @@ function TableLayout() {
             tableGridCol: newTableCol,
             tableGridRow: newTableRow,
         };
-        const tempFloorData = floorData
-        tempFloorData.tables.push(newTable)
-        setFloorData(tempFloorData)
 
         const tempFloors = [...floors]
+        console.log("tempfloors", tempFloors)
         const index = tempFloors.findIndex(f=>f.Name == floorData.Name)
         tempFloors[index].tables.push(newTable)
+        console.log("tempfloorsda bu oluyor",tempFloors)
         setFloors(tempFloors)
+
+        const updatedFloor = tempFloors.find(f => f.Name === floorData.Name);
+        setFloorData(updatedFloor);
 
         closeInputBox();
     }
