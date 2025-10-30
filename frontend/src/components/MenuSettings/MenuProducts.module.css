@@ -78,7 +78,7 @@
 }
 .status-active{
     background-color: #d1fae5;
-    width: auto;
+    width: auto !important;
     border-radius: 16px;
     text-align: center;
     width: 50%;   
@@ -87,7 +87,7 @@
 }
 .status-passive{
     background-color: #fee2e2;
-    width: auto;
+    width: auto !important;
     border-radius: 16px;
     text-align: center;
     width: 50%;   
@@ -221,4 +221,26 @@ input[type=number]::-webkit-outer-spin-button {
 }
 .action-buttons :first-child{
     margin-right: 1rem;
+}
+.recipe-stock-card{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    background-color: rgb(75, 85, 99);
+    
+}
+.recipe-stock-card button{
+    background-color: rgb(75, 85, 99);
+    width: 100%;
+    padding: 1rem;
+    color: white;
+}
+.recipe-active{
+    background-color: rgb(31, 41, 55) !important;
+    border-top-right-radius: 0.5rem;
+    border-bottom-right-radius: 0.5rem;
+}
+.stock-card-active{
+    background-color: rgb(31, 41, 55) !important;
+    border-top-left-radius: 0.5rem;
+    border-bottom-left-radius: 0.5rem;
 }

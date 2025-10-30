@@ -1,40 +1,12 @@
-.ingredient-name{
-    padding:0rem 1rem;
-    font-weight: 500;
-}
-.ingredient-name input{
-    width: 100%;
-    border: 1px solid rgb(221, 221, 221);
-    height: 2rem;
-}
+
 .ingredient-headers h1{
     color: black;
     font-weight: 500;
     font-size: 1.25rem;
     padding: 1.5rem;
 }
-.ingredient-unit select{
-    width: 100%;
-    border: 1px solid rgb(221, 221, 221);
-    height: 2rem;
-}
-.ingredient-cost{
-    padding:0rem 1rem;
-}
-.ingredient-cost input{
-    width: 100%;
-    border: 1px solid rgb(221, 221, 221);
-    height: 2rem;
-}
-.ingredient-invoice-names{
-    padding:0rem 1rem;
-    font-weight: 500;
-}
-.ingredient-invoice-names input{
-    width: 100%;
-    border: 1px solid rgb(221, 221, 221);
-    height: 2rem;
-}
+
+
 .ingredient{
     display: grid;
     grid-template-columns: 2fr 1fr 1fr 1fr 0.25fr 0.25fr;
@@ -48,9 +20,33 @@
     transition-duration: 200ms;
 }
 .ingredient p{
-    border-left: 1px solid white;
-    margin-left: 1rem;
     align-items: center;
     color:#374151;
-
 }
+.out-of-stock{
+    background: #eed3d3;
+    text-align: center;
+    border-radius: 16px;
+    font-weight: 600;
+}
+.out-of-stock p{
+    color: #991b1b ;
+}
+.enough-stock{
+    background: #d1fae5;
+    text-align: center;
+    border-radius: 16px;
+    font-weight: 600;
+}
+.enough-stock p{
+    color: #065f46;
+}
+.normal-stock {
+    text-align: center;
+    border-radius: 16px;
+    font-weight: 600;
+    background: #fef3c7;  
+}
+.normal-stock p{
+    color: #fa9252; 
+}   

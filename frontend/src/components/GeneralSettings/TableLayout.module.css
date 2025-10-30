@@ -49,9 +49,7 @@
     height: 100%;
     display: flex;
     flex-direction: row;
-    background-color: #f8fafc;
     margin-bottom: 5px;
-    border: 1px solid #cbd5e1;
     justify-content: space-between;
 }
 
@@ -87,7 +85,7 @@
 
 }
 .new-table-input-box {
-    display: none;
+    display: flex;
     position: fixed;
     top: 50%;
     left: 50%;
@@ -135,7 +133,6 @@
 }
 .choose-create-floor{
     background-color: #1a1a24;
-    display: none;
     position: absolute;
     flex-direction: column;
     width: 200px;
@@ -215,9 +212,7 @@
     display: flex;
     flex-direction: row;
     margin-right: 1rem;
-    border: 1px solid #d1d3d6;
     border-radius: 16px;
-    background-color: #e5e7eb;
 }
 .save-layouts{
     margin-top: auto;
@@ -307,20 +302,28 @@
     position: absolute;
     top: 0;
     right: 0;
-    display: none;
+    display: flex;
 
 }
 .trash-button button{
     font-size: 40px;
     border-radius: 15px;
     background-color: red;
+    width: 30px;
+    height: 30px;
+    color: white;
 
 }
-.trash-button i{
+.trash-button svg{
     background-color: red;
-    border-radius: 15px;
-
-
+    border-radius: 0.5rem;
+    color: white;
+    width: 30px;
+    height: 30px;
+    font-size: 30px;
+    display: flex;
+    padding: 3px;
+    
 }
 .grid-save{
     display: flex;

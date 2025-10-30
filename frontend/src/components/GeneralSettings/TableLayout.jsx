@@ -1,13 +1,17 @@
 import staticStyles from "../main/StaticStyle.module.css";
 import styles from "./TableLayout.module.css";
-import {  useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 function TableLayout() {
-    const [newTableCol, setNewTableCol] = useState(0);
-    const [newTableRow, setNewTableRow] = useState(0);
-    const [row, setRow] = useState(5);
-    const [col, setCol] = useState(5);
-    const [matrix, setMatrix] = useState(25);
-    const [layout, setLayout] = useState([]);
+    const [newTableInput, setNewTableInput] = useState(false)
+    const [newFloorInput, setNewFloorInput] = useState(false)
+    const [newTableCol, setNewTableCol] = useState(0)
+    const [newTableRow, setNewTableRow] = useState(0)
+    const [row, setRow] = useState(5)
+    const [col, setCol] = useState(5)
+    const [isFloorOptions, setIsFloorOptions] = useState(false)
+    const [matrix, setMatrix] = useState(25)
+    const [layout, setLayout] = useState([])
+
     const [floors, setFloors] = useState([
         {
             Name: "İlk Kat",
@@ -40,39 +44,38 @@ function TableLayout() {
         }
     }
 
-    const getDataFromDB = async () =>{
-        try{
+    const getDataFromDB = async () => {
+        try {
             const response = await fetch("http://localhost:5000/getTableData")
-            if(response.ok){
+            if (response.ok) {
                 const data = await response.json()
-       
-                console.log("datafromdb",data[0][0])
+                console.log("datafromdb", data[0].tablelayout)
                 const tempFloors = []
-                data[0].forEach((floor, index)=>{
-                    tempFloors.push(floor[0])
-                    console.log("flooris",floor)
+                data[0].tablelayout.forEach((floor, index) => {
+                    tempFloors.push(floor)
+                    console.log("flooris", floor)
                 })
-                setFloors(data[0][0])
+                setFloors(data[0].tablelayout)
                 setFloorData(tempFloors[0])
             }
-        } catch(error){
+        } catch (error) {
             console.log(error)
         }
     }
 
-    useEffect(()=>{
+    useEffect(() => {
         getDataFromDB()
-    },[])
-    useEffect(()=>{
+    }, [])
+    useEffect(() => {
         console.log(floors)
-    },[floors])
-    
+    }, [floors])
+
     function changeMatrix() {
         setFloorData((prev) => ({
             ...prev,
             tables: [...prev.tables, []],
         }));
-        const index = floors.findIndex(f=>f.Name == floorData.Name)
+        const index = floors.findIndex(f => f.Name == floorData.Name)
         const tempFloors = [...floors]
         tempFloors[index].tables = []
         const gridCol = document.getElementById("grid-col").value;
@@ -99,23 +102,14 @@ function TableLayout() {
         changeGridLayout(floors[index].gridCol, floors[index].gridRow);
         console.log(floors);
     }
-    function newFloorInputBox() {
-        document.getElementById("NewFloorInput").style.display = "flex";
-    }
-    function newFloorInputBoxClose() {
-        document.getElementById("NewFloorInput").style.display = "none";
-    }
 
     function newTableAppendToGrid(gridColumnStart, gridRowStart) {
+        console.log("asd")
         setNewTableCol(gridColumnStart);
         setNewTableRow(gridRowStart);
-        document.getElementById("NewTableInput").style.display = "flex";
+        setNewTableInput(true)
     }
-    function closeInputBox() {
-        document.getElementsByClassName(
-            staticStyles["input-container"]
-        )[0].style.display = "none";
-    }
+
     function saveNewTable() {
         const tableName = document.getElementById("TableName").value;
         const newTable = {
@@ -126,27 +120,26 @@ function TableLayout() {
 
         const tempFloors = [...floors]
         console.log("tempfloors", tempFloors)
-        const index = tempFloors.findIndex(f=>f.Name == floorData.Name)
+        const index = tempFloors.findIndex(f => f.Name == floorData.Name)
         tempFloors[index].tables.push(newTable)
-        console.log("tempfloorsda bu oluyor",tempFloors)
+        console.log("tempfloorsda bu oluyor", tempFloors)
         setFloors(tempFloors)
 
-        const updatedFloor = tempFloors.find(f => f.Name === floorData.Name);
-        setFloorData(updatedFloor);
-
-        closeInputBox();
+        const updatedFloor = tempFloors.find(f => f.Name === floorData.Name)
+        setFloorData(updatedFloor)
+        setNewTableInput(false)
     }
     function saveNewFloor() {
-        const floorName = document.getElementById("FloorName").value;
-        console.log(floorName);
+        const floorName = document.getElementById("FloorName").value
+        console.log(floorName)
         const newFloor = {
             Name: floorName,
             gridCol: 4,
             gridRow: 4,
             tables: [],
-        };
+        }
         setFloors((prev) => [...prev, newFloor]);
-        console.log("floorsare", floors);
+        setNewFloorInput(false)
     }
     useEffect(() => {
         setMatrix(row * col);
@@ -191,9 +184,10 @@ function TableLayout() {
                                     className={styles["trash-button"]}
                                     style={{ display: table ? "flex" : "none" }}
                                 >
-                                    <button onClick={(e) => deleteTable(e, table)}>
-                                        <i className="bi bi-trash"></i>
-                                    </button>
+                                    <svg onClick={(e) => deleteTable(e, table)}xmlns="http://www.w3.org/2000/svg"  fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                                        <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z" />
+                                        <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z" />
+                                    </svg>
                                 </div>
                             </div>
                         </div>
@@ -241,11 +235,8 @@ function TableLayout() {
         changeGridLayout(col, row);
     }, [floors]);
 
-    function floorOptions() {
-        document.getElementsByClassName(
-            styles["choose-create-floor"]
-        )[0].style.display = "flex";
-    }
+
+    
 
     //to update the layout after adding new table
     useEffect(() => {
@@ -281,9 +272,9 @@ function TableLayout() {
                                 kullanın.
                             </p>
                         </div>
-                            <div className={staticStyles["save-button"]}>
-                                <button onClick={()=>saveToDb()} >Değişiklikleri Kaydet</button>
-                            </div>
+                        <div className={staticStyles["save-button"]}>
+                            <button onClick={() => saveToDb()} >Değişiklikleri Kaydet</button>
+                        </div>
                     </div>
 
                     <div>
@@ -313,9 +304,10 @@ function TableLayout() {
                                     </div>
                                     <div className={styles["floor-options"]}>
                                         <div className={styles["choosed-floor"]}>
-                                            <button id="choosed-floor" onClick={() => floorOptions()}>
+                                            <button id="choosed-floor" onClick={() => setIsFloorOptions(!isFloorOptions)}>
                                                 {floors[0].Name}
                                             </button>
+                                            {isFloorOptions && (
                                             <div className={styles["choose-create-floor"]}>
                                                 <div className={styles["floor-choose-input"]}>
                                                     <h1>Kat Seçiniz.</h1>
@@ -352,9 +344,11 @@ function TableLayout() {
                                                     </div>
                                                 </div>
                                             </div>
+                                            )}
+
                                         </div>
                                         <div className={styles["new-floor"]}>
-                                            <button onClick={() => newFloorInputBox()} id="new-floor">
+                                            <button onClick={() => setNewFloorInput(true)} id="new-floor">
                                                 Yeni Kat{" "}
                                             </button>
                                         </div>
@@ -368,34 +362,39 @@ function TableLayout() {
                     </div>
                 </div>
             </div>
-            <div id="NewTableInput" className={staticStyles["input-container"]}>
-                <p>Masa Ekle</p>
-                <input type="text" placeholder="MASA ADI" name="" id="TableName" />
-                <div className={staticStyles["action-buttons"]}>
-                    <button
-                        onClick={() => closeInputBox()}
-                        style={{ backgroundColor: "#374151" }}
-                    >
-                        İptal
-                    </button>
-                    <button onClick={() => saveNewTable(newTableCol, newTableRow)}>
-                        Kaydet
-                    </button>
+            {newTableInput ? (
+                <div id="NewTableInput" className={staticStyles["input-container"]}>
+                    <p>Masa Ekle</p>
+                    <input type="text" placeholder="MASA ADI" name="" id="TableName" />
+                    <div className={staticStyles["action-buttons"]}>
+                        <button
+                            onClick={() => setNewTableInput(false)}
+                            style={{ backgroundColor: "#374151" }}
+                        >
+                            İptal
+                        </button>
+                        <button onClick={() => saveNewTable(newTableCol, newTableRow)}>
+                            Kaydet
+                        </button>
+                    </div>
                 </div>
-            </div>
-            <div id="NewFloorInput" className={staticStyles["input-container"]}>
-                <p>Kat Ekle</p>
-                <input type="text" placeholder="Kat Adı" name="" id="FloorName" />
-                <div className={staticStyles["action-buttons"]}>
-                    <button
-                        onClick={() => newFloorInputBoxClose()}
-                        style={{ backgroundColor: "#374151" }}
-                    >
-                        İptal
-                    </button>
-                    <button onClick={() => saveNewFloor()}>Kaydet</button>
+            ) : ""}
+
+            {newFloorInput ? (
+                <div id="NewFloorInput" className={staticStyles["input-container"]}>
+                    <p>Kat Ekle</p>
+                    <input type="text" placeholder="Kat Adı" name="" id="FloorName" />
+                    <div className={staticStyles["action-buttons"]}>
+                        <button
+                            onClick={() => setNewFloorInput(false)}
+                            style={{ backgroundColor: "#374151" }}
+                        >
+                            İptal
+                        </button>
+                        <button onClick={() => saveNewFloor()}>Kaydet</button>
+                    </div>
                 </div>
-            </div>
+            ) : ""}
         </>
     );
 }

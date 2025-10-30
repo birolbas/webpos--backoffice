@@ -56,7 +56,8 @@ svg {
     padding: 1.5rem;
     border-radius: 0.4rem;
     margin-top: 1rem;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.15)
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+    height: 100%;
 }
 .table-container h1{
     margin-bottom: 1rem;
@@ -106,7 +107,7 @@ svg {
 .sub-menu{
 	display: none;
 	background-color: #272736;
-    	transition: transform 0.3s ease;
+    transition: transform 0.3s ease;
 }
 .sub-menu ul li{
 	min-height: 40px;
@@ -193,7 +194,7 @@ svg {
     margin-bottom: 1rem;
     background-color: #2a2a3e !important;    
     border: 1px solid #3a3a4e;
-    width: 100%;
+    width: 90%;
     height: 30px;
     padding-left: 1rem;
 
@@ -243,10 +244,10 @@ svg {
     padding-right: 1rem;
 }
 .title{
-    padding: 1rem;
+    font-size: 33px;
+    margin-bottom: 1rem;
     width: 100%;
     font-weight: bold;
-    border: 1px solid #e5e7eb;
     color: #352f36;
 }
 .action-container{
@@ -268,4 +269,56 @@ svg {
     font-size: 22px;
     margin-bottom: 1rem;
     outline: none;
+}
+.dashboard{
+    color: white;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    margin: auto;
+    margin-left: 1rem;
+}
+.confirm-container{
+    position: fixed;
+    top: 50%;
+    right: 50%;
+    transform: translate(50%, -50%);
+    flex-direction: column;
+    background-color: #1a1a2e;
+    width: 400px;
+    border-radius: 15px;
+    z-index: 999;
+    padding: 1rem;
+}
+.exclamation{
+    display: flex;
+    justify-content: center;
+}
+.exclamation svg{
+    width: 60px;
+    height: 50px;
+}
+.confirm-text{
+    color: white;
+}
+.confirm-text h1{
+    text-align: center;
+    margin: 1.2rem 0rem;
+}
+.confirm-text p{
+    margin-bottom: 1rem;
+}
+.confirm-buttons{
+    display: grid;
+    grid-template-rows: 1fr ;
+    grid-template-columns: 1fr 1fr;
+}
+.confirm-buttons button{
+    border-radius: 0.4rem;
+    width: auto;
+    gap: 1rem;
+    height: 60px;
+    margin: 10px;
+    border: none;
+    font-size: 22px;
 }
