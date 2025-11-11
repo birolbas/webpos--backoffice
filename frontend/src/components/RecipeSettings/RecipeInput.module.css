@@ -1,10 +1,4 @@
 
-input:focus{
-    border: 2px solid #4F46E5 !important;
-}
-select:focus{
-    border: 2px solid #4F46E5 !important;
-}
 .recipe-information-container{
     display: flex;
     padding: 1.5rem;
@@ -41,7 +35,7 @@ select:focus{
     padding: 1.5rem;
     border-radius: 0.4rem;
     margin-top: 1rem;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+    background-color: white;
 }
 .ingredients-container h1{
     margin-bottom: 1rem;

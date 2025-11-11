@@ -1,0 +1,22 @@
+.append-menu-item{
+    height: 10%;
+    display: flex;
+    padding: 20px 60px 20px 30px;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 15px;
+    border-bottom: 0px;
+    margin-bottom: 0.5rem;
+}
+.append-menu-item button{
+    display: flex;
+    border-radius: 0px;
+    width: 200px;
+    background-color: green;
+    color: white;
+    align-items: center;
+}
+.append-menu-item i{
+    background-color: green;
+    margin-right: 10px;
+}

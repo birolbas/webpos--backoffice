@@ -6,42 +6,16 @@ from psycopg2.extras import execute_values
 import json
 router = APIRouter(tags=["recipes"])
 
-@router.post("/saveSubRecipe")
-async def saveSubRecipe(request: Request): 
+@router.post("/saveRecipe")
+async def saveRecipe(request: Request):
     data = await request.json()
     print(data)
     recipe_script = """insert into recipes(restaurant_name, name, is_sub_recipe) 
                 values(%s, %s, %s)
                 returning id"""
+                
     values = ("TEST", (data["recipeName"]), bool(data["isSubRecipe"]))
-    conn = get_db_connection()
-
-    try:
-        with conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor) as cur:
-            cur.execute(recipe_script, values)
-            recipe_id = cur.fetchall()
-            conn.commit()
-    except Exception as error:
-        raise error
-    
-    recipe_items_script = """insert into recipe_items(restaurant_name, recipe_id, ingredient_id, quantity, unit)
-                             values %s"""
-    item_values = [("TEST", recipe_id[0]["id"], ingredient["id"], ingredient["amount"], ingredient["unit"]) for ingredient in data["recipeIngredients"]]
-    try:
-        with conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor) as cur:
-            execute_values(cur, recipe_items_script, item_values)
-            conn.commit()
-    except Exception as error:
-        raise error    
-    return data
-@router.post("/saveUpperRecipe")
-async def saveUpperRecipe(request: Request):
-    data = await request.json()
-    print(data)
-    recipe_script = """insert into recipes(restaurant_name, name, is_sub_recipe) 
-                values(%s, %s, %s)
-                returning id"""
-    values = ("TEST", (data["recipeName"]), bool(data["isSubRecipe"]))
+    print("is subrecipe ", data["isSubRecipe"], "type is ", type(data["isSubRecipe"]))
     conn = get_db_connection()
     try:
         with conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor) as cur:
@@ -53,7 +27,7 @@ async def saveUpperRecipe(request: Request):
 
     recipe_items_script = """insert into recipe_items(restaurant_name, recipe_id, ingredient_id, quantity, unit)
                              values %s"""
-    item_values = [("TEST", recipe_id[0]["id"], ingredient["id"], ingredient["amount"], ingredient["unit"]) for ingredient in data["recipeIngredients"]]
+    item_values = [("TEST", recipe_id[0]["id"], ingredient["id"], ingredient["quantity"], ingredient["unit"]) for ingredient in data["recipeIngredients"]]
     try:
         with conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor) as cur:
             execute_values(cur, recipe_items_script, item_values)
@@ -61,53 +35,57 @@ async def saveUpperRecipe(request: Request):
     except Exception as error:
         raise error    
     
-    recipe_sub_recipe_script = """insert into recipe_subrecipes(restaurant_name, recipe_id, subrecipe_id, amount)
-                                    values %s"""
-    sub_recipe_values = [("TEST", recipe_id[0]["id"], subrecipe["id"], subrecipe["amount"]) for subrecipe in data["recipeSubRecipes"] if subrecipe["id"] if isinstance(subrecipe["id"], int)]
-    try:
-        with conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor) as cur:
-            execute_values(cur, recipe_sub_recipe_script, sub_recipe_values)
-            conn.commit()
-    except Exception as error:
-        raise error   
-    return data
-
-
-@router.delete("/saveUpdatedRecipes")
-async def saveUpdatedRecipes(request: Request):
-    id = await request.json()
-    id = id["id"]
-    script = """DELETE FROM recipes where id = %s AND restaurant_name=%s"""
-    values = (id, "TEST")
-    cur = conn.cursor()
-    cur.execute(script, values)
-    return id
+    if(not data["isSubRecipe"]):
+        print("sub_recipe calıstı")
+        recipe_sub_recipe_script = """insert into recipe_subrecipes(restaurant_name, recipe_id, subrecipe_id, quantity)
+                                        values %s"""
+        sub_recipe_values = [("TEST", recipe_id[0]["id"], subrecipe["id"], subrecipe["quantity"]) for subrecipe in data["recipeSubRecipes"] if subrecipe["id"] if isinstance(subrecipe["id"], int)]
+        try:
+            with conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor) as cur:
+                execute_values(cur, recipe_sub_recipe_script, sub_recipe_values)
+                conn.commit()
+        except Exception as error:
+            raise error   
+        return data
 
     
 @router.get("/getRecipes")
 async def getRecipes():
-    script = """select  r.id,
-		r.name,
-    	COALESCE(SUM(ri.quantity * i.cost_per_unit), 0) AS ingredient_cost,
-    	COALESCE(SUM(sr.sub_cost), 0) AS sub_recipe_cost,
-		COALESCE(SUM(ri.quantity * i.cost_per_unit), 0) + COALESCE(SUM(sr.sub_cost), 0) AS total_cost,
-        r.is_sub_recipe
-	from recipes r  
-	left join recipe_items ri on ri.recipe_id = r.id
-	left join ingredients i on i.id = ri.ingredient_id
-	LEFT JOIN recipe_subrecipes rs ON rs.recipe_id = r.id
+    script = """SELECT 
+    r.id,
+    r.name,
+    COALESCE(ing.ingredient_cost, 0) AS ingredient_cost,
+    COALESCE(sub.sub_recipe_cost, 0) AS sub_recipe_cost,
+    COALESCE(ing.ingredient_cost, 0) + COALESCE(sub.sub_recipe_cost, 0) AS total_cost,
+    r.is_sub_recipe
+FROM recipes r
 LEFT JOIN (
     SELECT 
-        r2.id AS sub_id,
-        SUM(ri2.quantity * i2.cost_per_unit) AS sub_cost
-    FROM recipes r2
-    JOIN recipe_items ri2 ON ri2.recipe_id = r2.id
-    JOIN ingredients i2 ON i2.id = ri2.ingredient_id
-    WHERE r2.is_sub_recipe = true
-    GROUP BY r2.id
-) sr ON sr.sub_id = rs.subrecipe_id
-	where r.restaurant_name = %s 
-	group by r.id, r.name 
+        ri.recipe_id,
+        SUM(ri.quantity * i.cost_per_unit) AS ingredient_cost
+    FROM recipe_items ri
+    JOIN ingredients i ON i.id = ri.ingredient_id
+    GROUP BY ri.recipe_id
+) ing ON ing.recipe_id = r.id
+LEFT JOIN (
+    SELECT 
+        rs.recipe_id,
+        SUM(sr.sub_cost) AS sub_recipe_cost
+    FROM recipe_subrecipes rs
+    JOIN (
+        SELECT 
+            r2.id AS sub_id,
+            SUM(ri2.quantity * i2.cost_per_unit) AS sub_cost
+        FROM recipes r2
+        JOIN recipe_items ri2 ON ri2.recipe_id = r2.id
+        JOIN ingredients i2 ON i2.id = ri2.ingredient_id
+        WHERE r2.is_sub_recipe = true
+        GROUP BY r2.id
+    ) sr ON sr.sub_id = rs.subrecipe_id
+    GROUP BY rs.recipe_id
+) sub ON sub.recipe_id = r.id
+where r.restaurant_name = %s ;
+
 """
     values = ("TEST",)
     data = execute_query(script, values, True)
@@ -154,17 +132,17 @@ async def get_sub_recipe_to_edit(edit_id: int):
     
     subrecipes_script = """
                             SELECT 
-                                rs.id,
+                                rs.subrecipe_id as id,
                                 r_sub.name,
-                                rs.amount,
+                                rs.quantity,
                                 ROUND(SUM(ri.quantity * i.cost_per_unit),2) AS total_cost,
-                                ROUND((SUM(ri.quantity * i.cost_per_unit) / rs.amount),2) AS cost_per_unit
+                                ROUND((SUM(ri.quantity * i.cost_per_unit) / rs.quantity),2) AS cost_per_unit
                             FROM recipe_subrecipes rs
                             JOIN recipes r_sub ON r_sub.id = rs.subrecipe_id
                             JOIN recipe_items ri ON ri.recipe_id = r_sub.id
                             JOIN ingredients i ON ri.ingredient_id = i.id
                             WHERE rs.recipe_id = %s
-                            GROUP BY rs.id, r_sub.name, rs.amount;
+                            GROUP BY rs.id, r_sub.name, rs.quantity;
                         """
     
     ingredient_values = (edit_id, edit_id)
@@ -197,3 +175,44 @@ async def deleteRecipe(request: Request):
         execute_query(recipe_subrecipes_delete_script, values)
     execute_query(recipes_delete, values)
     return data
+
+
+@router.post("/editRecipe")
+async def editRecipe(request: Request):
+    data = await request.json()
+    print(data)
+    values = (data["id"],)
+    recipe_items_delete_script = """DELETE FROM recipe_items WHERE recipe_id = %s """
+    recipe_subrecipes_delete_script = """DELETE FROM recipe_subrecipes WHERE recipe_id = %s"""
+    execute_query(recipe_items_delete_script ,values)
+    print("tpye", type(data["is_sub_recipe"]), "data is ", data["is_sub_recipe"])
+    if not data["is_sub_recipe"]:
+        print("çalıştı ")
+        execute_query(recipe_subrecipes_delete_script, values)
+
+    recipe_items_script = """insert into recipe_items(restaurant_name, recipe_id, ingredient_id, quantity, unit)
+                             values %s"""
+    item_values = [("TEST", data["id"], ingredient["id"], ingredient["quantity"], ingredient["unit"]) for ingredient in data["recipeIngredients"]]
+
+    conn = get_db_connection()
+    try:
+        with conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor) as cur:
+            execute_values(cur, recipe_items_script, item_values)
+            conn.commit()
+    except Exception as error:
+        raise error    
+    
+    if(not data["is_sub_recipe"]):
+        print("sub_recipe calıstı")
+        recipe_sub_recipe_script = """insert into recipe_subrecipes(restaurant_name, recipe_id, subrecipe_id, quantity)
+                                        values %s"""
+        sub_recipe_values = [("TEST", data["id"], subrecipe["id"], subrecipe["quantity"]) for subrecipe in data["recipeSubRecipes"]]
+        print(sub_recipe_values)
+        try:
+            with conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor) as cur:
+                execute_values(cur, recipe_sub_recipe_script, sub_recipe_values)
+                conn.commit()
+        except Exception as error:
+            raise error  
+        return data
+

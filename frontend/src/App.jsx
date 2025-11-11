@@ -15,11 +15,15 @@ import CondimentGroups from './components/MenuSettings/CondimentGroups'
 import CondimentProducts from './components/MenuSettings/CondimentProducts'
 import Stocks from "./components/StockManagement/Stocks";
 import StockCategories from './components/StockManagement/StockCategories'
+import Dasboard from "./components/MainMenu/Dashboard";
+import CancelReturnReasons from "./components/GeneralSettings/CancelReturnReasons";
+import UserSettings from "./components/Users/UserSettings";
 const router = createBrowserRouter([
 	{
 		path: "/",
 		element: <Layout />,
 		children: [
+			{ path: "ana-menü", element: <Dasboard/>},
 			{ path: "/malzemeler", element: <Ingredients /> },
 			{ path: "/ödeme-seçenekleri", element: <PaymentMethods /> },
 			{ path: "/masa-düzeni", element: <TableLayout /> },
@@ -33,7 +37,11 @@ const router = createBrowserRouter([
 			{ path: "/ilave-grupları", element: <CondimentGroups/>},
 			{ path: "/ilave-grupları/ilave-oluştur", element: <CondimentProducts/>},
 			{ path: "/stok-durumu", element:<Stocks/>},
-			{ path: "/stok-kategorileri", element:<StockCategories/>}
+			{ path: "/stok-kategorileri", element:<StockCategories/>},
+			{ path: "/iptal-iade-sebepleri", element:<CancelReturnReasons/>},
+			{ path: "/kullanıcılar", element:<UserSettings/>}
+
+
 		]
 	}
 ]);

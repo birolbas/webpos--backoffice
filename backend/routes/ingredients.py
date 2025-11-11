@@ -40,6 +40,7 @@ async def  deleteIngredient(request: Request):
 @router.post("/saveIngredients")
 async def saveIngredients(request: Request): 
     data = await request.json()
+    print("data is ", data)
     script = """insert into ingredients(restaurant_name, name,stock_category, unit, stock_quantity, stockcheck, cost_per_unit) 
                 values(%s, %s, %s, %s, %s, %s, %s)
             """

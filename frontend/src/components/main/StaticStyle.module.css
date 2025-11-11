@@ -56,7 +56,6 @@ svg {
     padding: 1.5rem;
     border-radius: 0.4rem;
     margin-top: 1rem;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
     height: 100%;
 }
 .table-container h1{
@@ -70,12 +69,18 @@ svg {
     background-color: #eceef1f6;
     gap: 3rem;
 }
+.table-header-style p{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
 .table-item-style{
     display: grid;
     gap: 3rem;
     padding: 1rem 2rem;
     border-bottom: 1px solid #e5e7eb;
-    align-items: center
+    align-items: center;
+    background-color: white;
 }
 .table-item-style:hover{
     background-color: #e5e7eb;
@@ -97,10 +102,9 @@ svg {
 }
 .content-container{
     padding: 0rem 2rem;
-	background-color:  white;
+	background-color: rgb(249 250 251);
 	height: 100vh;
 	overflow-y: auto;
-    border-top-left-radius: 16px;
     width: 100%;
     flex: 1;
 }
@@ -130,6 +134,7 @@ svg {
     border-radius: 15px;
     border-bottom: 0px;
     margin-bottom: 0.5rem;
+    margin-top: 2rem;
 }
 .save-div button{
     display: flex;
@@ -321,4 +326,68 @@ svg {
     margin: 10px;
     border: none;
     font-size: 22px;
+}
+.status-active{
+    background-color: #d1fae5;
+    width: auto !important;
+    border-radius: 16px;
+    text-align: center;
+    width: 50%;   
+    color: #065f46 !important;
+    font-weight: bold;
+}
+.status-passive{
+    background-color: #fee2e2;
+    width: auto !important;
+    border-radius: 16px;
+    text-align: center;
+    width: 50%;   
+    color: #991b1b !important;
+    font-weight: bold;
+}
+.filter-by-name{
+    padding: 0px 60px 0px 30px;
+}
+.filter-fake-input{
+    display: flex;
+    gap: 1rem;
+    width: 20%;
+    border: 2px solid #4F46E5;
+    padding: 0.5rem 1rem;
+    align-items: center;
+    border-radius: 1rem;
+}
+.filter-fake-input svg{
+    width: 30px;
+    height: 30px;
+}
+.filter-fake-input input{
+    width: 100%;
+    margin-right: auto;
+    padding: 0.5rem 1rem;
+    border: 0px;
+    outline: none;
+    background-color: rgb(249 250 251);
+    font-size: 22px;
+}
+.append-menu-item{
+    height: 10%;
+    display: flex;
+    padding: 0px 60px 20px 30px;
+    margin-top: 20px;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+.append-menu-item button{
+    display: flex;
+    border-radius: 0px;
+    width: 200px;
+    background-color: green;
+    color: white;
+    align-items: center;
+}
+.append-menu-item i{
+    background-color: green;
+    margin-right: 10px;
 }

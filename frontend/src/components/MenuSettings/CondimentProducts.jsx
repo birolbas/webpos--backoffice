@@ -12,7 +12,9 @@ function CondimentGroups() {
     const [inputRelatedRecipe, setInputRelatedRecipe] = useState(null)
     const [inputPrice, setInputPrice] = useState(0)
     const [recipes, setRecipes] = useState([])
-
+    useEffect(()=>{
+        console.log("realted recipe ",  inputRelatedRecipe)
+    },[inputRelatedRecipe])
     const saveToDB = async () => {
         if (inputName && inputCategory && inputPrice) {
             const obj = {
@@ -131,7 +133,7 @@ function CondimentGroups() {
                 <div style={{ gridTemplateColumns: "2fr 1fr 1fr 0.5fr 0.5fr" }} className={staticStyles["table-item-style"]}>
                     <p>{recipe.name}</p>
                     <p>{recipe.category}</p>
-                    <p>{recipe.relatedRecipe}</p>
+                    <p>{recipe.related_recipe ? recipes.find(r => r.id == recipe.related_recipe).name : "- "}</p>
                     <p>{recipe.price}₺</p>
                     <p style={{ display: "flex" }} className={styles["actions"]}>
                         <svg onClick={() => editProduct(recipe.id)} xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
@@ -163,10 +165,10 @@ function CondimentGroups() {
                 <div className={staticStyles["two-form"]}>
                     <div className={staticStyles["form"]}>
                         <p>Bağlı Reçete</p>
-                        <select value={inputRelatedRecipe} onChange={(e) => setInputRelatedRecipe(e.target.value)} id="ProductTax" required defaultValue="">
+                        <select value={inputRelatedRecipe} onChange={(e) => setInputRelatedRecipe(parseInt(e.target.value))} id="ProductTax" required defaultValue="">
                             <option value="" disabled selected hidden>BAĞLI REÇETE SEÇİNİZ</option>
                             {recipes.map((recipe, index) => (
-                                <option value=""> {recipe.name} </option>
+                                <option value={recipe.id}> {recipe.name} </option>
                             ))}
                         </select>
                     </div>

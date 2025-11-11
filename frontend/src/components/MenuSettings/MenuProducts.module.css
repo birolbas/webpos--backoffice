@@ -12,11 +12,10 @@
 .append-menu-item{
     height: 10%;
     display: flex;
-    padding: 20px 60px 20px 30px;
+    padding: 0px 60px 20px 30px;
+    margin-top: 20px;
     justify-content: space-between;
     align-items: center;
-    border-radius: 15px;
-    border-bottom: 0px;
     margin-bottom: 0.5rem;
 }
 .append-menu-item button{

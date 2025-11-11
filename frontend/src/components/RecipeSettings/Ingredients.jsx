@@ -2,7 +2,6 @@ import staticStyles from '../main/StaticStyle.module.css'
 import style from './RecipeInput.module.css'
 import IngredientsCSS from './Ingredients.module.css'
 import { useEffect, useState } from 'react'
-import LeftBar from '../LeftBar/LeftBar'
 function Ingredients() {
     const [ingredientInputBox, setIngredientInputBox] = useState(false)
     const [ingredientName, setIngredientName] = useState("")
@@ -11,11 +10,14 @@ function Ingredients() {
     const [ingredientStockQuantity, setIngredientStockQuantity] = useState()
     const [ingredientStockCheck, setIngredientStockCheck] = useState()
     const [ingredientCost, setIngredientStockCost] = useState()
-    useEffect(() => {
-        console.log("ingredientStockCategory,", ingredientStockCategory)
-    }, [ingredientStockCategory])
     const [ingredients, setIngredients] = useState([])
+    const [staticIngredients, setStaticIngredients] = useState([])
     const [stockCategories, setStockCategories] = useState([])
+
+    const [isNameFilterOn, setIsNameFilterOn] = useState(false)
+    const [isPriceFilterOn, setIsPriceFilterOn] = useState(false)
+    const [isPriceSortDesc, setIsPriceDesc] = useState(null)
+
 
     const getDataFromDB = async () => {
         const response = await fetch("http://localhost:5000/getIngredients")
@@ -23,6 +25,7 @@ function Ingredients() {
         setIngredients(data.ingredients)
         console.log("data", data)
         setStockCategories(data.stock_categories)
+        setStaticIngredients(data.ingredients)
     }
     useEffect(() => {
         getDataFromDB()
@@ -48,15 +51,15 @@ function Ingredients() {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(tempIngredients)
+                body: JSON.stringify(obj)
             })
-            if(response.ok){
+            if (response.ok) {
                 tempIngredients.push(obj)
                 setIngredients(tempIngredients)
             }
         }
     }
-    
+
 
     function deleteProduct(index) {
         const tempIngredients = [...ingredients]
@@ -77,8 +80,8 @@ function Ingredients() {
         })
         console.log(response)
     }
-    
-    function editIngredient(ingredientId){
+
+    function editIngredient(ingredientId) {
         const ingredient = ingredients.find(i => i.id == ingredientId)
         console.log("ingrredient", ingredient)
         setIngredientName(ingredient.name)
@@ -89,28 +92,63 @@ function Ingredients() {
         setIngredientStockCost(ingredient.cost_per_unit)
         setIngredientInputBox(true)
     }
-    useEffect(()=>{
-        console.log(stockCategories)
-        
-    },[ingredientStockCategory])
+    function filterByPrice() {
+        let tempSorted = []
+        if (isNameFilterOn) {
+            tempSorted = [...ingredients]
+        } else {
+            tempSorted = [...staticIngredients]
+        }
+        if (isPriceSortDesc) {
+            tempSorted = [...tempSorted].sort((a, b) => a.cost_per_unit - b.cost_per_unit)
+            setIsPriceDesc(false)
+        } else {
+            tempSorted = [...tempSorted].sort((a, b) => b.cost_per_unit - a.cost_per_unit)
+            setIsPriceDesc(true)
+        }
+        setIngredients(tempSorted)
+        setIsPriceFilterOn(true)
+    }
+
+    function filterByName(nameinput) {
+        let filtered = []
+        if (isPriceFilterOn) {
+            filtered = [...ingredients]
+        } else {
+            filtered = [...staticIngredients]
+        }
+        if (nameinput && nameinput.trim() !== "") {
+            filtered = filtered.filter(product =>
+                product.name.toLowerCase().includes(nameinput.toLowerCase())
+            )
+        }
+        setIngredients(filtered);
+        if (nameinput.length > 0) {
+            setIsNameFilterOn(true)
+        } else {
+            setIsNameFilterOn(false)
+        }
+    }
     return <div className={staticStyles["content-container"]}>
-        <div className={staticStyles["info-container"]}>
-            <div className={staticStyles["save-div"]}>
-                <div className={staticStyles["info-box"]}>
-                    <p><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16">
-                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
-                        <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0" />
-                    </svg>Reçete oluşturmak için malzemelerinizi ekleyebilirsiniz. Ayrıca faturadan otomatik fiyat güncellemesi yapmak için malzemelerin faturadaki isimlerini ekleyebilirsiniz </p>
-                </div>
-            <div onClick={() => setIngredientInputBox(true)} className={style["action-container"]}>
-                <button>DEĞİŞİKLİKLERİ KAYDET</button>
+        <div className={staticStyles["append-menu-item"]}>
+            <h1>Ürün Listesi</h1>
+            <div className={staticStyles["save-button"]}>
+                <div onClick={() => setIngredientInputBox(true)} className={style["action-container"]}>
+                    <button>Yeni Ürün</button>
+                </div>         
+            </div>
+        </div>
+        <div className={staticStyles["filter-by-name"]}>
+            <div className={staticStyles["filter-fake-input"]}>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                    <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
+                </svg>
+                <input onChange={(e) => filterByName(e.target.value)} placeholder='İsime göre ara..' type="text" name="" id="" />
             </div>
 
-            </div>
 
             <div className={style["ingredients-container"]}>
                 <div className={IngredientsCSS["ingredient-headers"]}>
-                    <h1>Malzeme Listesi</h1>
                 </div>
                 <div style={{ gridTemplateColumns: "1.5fr 1fr 0.25fr 1fr 1fr 0.5fr 1fr 0.5fr 0.5fr" }} className={staticStyles["table-header-style"]}>
                     <p>Ürün Adı</p>
@@ -118,7 +156,18 @@ function Ingredients() {
                     <p>Birim</p>
                     <p>Stoktaki Miktar</p>
                     <p>Kritik Stok Kontrolü</p>
-                    <p>Maliyet</p>
+                    <p onClick={()=>filterByPrice()}>Maliyet
+                        {isPriceSortDesc == null ? (
+                            ""
+                        ) : (isPriceSortDesc ?
+                            (<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-down-short" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M8 4a.5.5 0 0 1 .5.5v5.793l2.146-2.147a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 1 1 .708-.708L7.5 10.293V4.5A.5.5 0 0 1 8 4" />
+                            </svg>) : (
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-up-short" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M8 12a.5.5 0 0 0 .5-.5V5.707l2.146 2.147a.5.5 0 0 0 .708-.708l-3-3a.5.5 0 0 0-.708 0l-3 3a.5.5 0 1 0 .708.708L7.5 5.707V11.5a.5.5 0 0 0 .5.5" />
+                                </svg>
+                            )
+                        )}</p>
                     <p>Durum</p>
                     <p>Fatura İsimleri</p>
                     <p>İşlemler</p>

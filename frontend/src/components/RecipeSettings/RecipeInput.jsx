@@ -1,4 +1,4 @@
-import { use, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import ProductStyle from '../MenuSettings/MenuProducts.module.css'
 import staticStyles from '../main/StaticStyle.module.css'
 import { useNavigate, useLocation } from 'react-router-dom'
@@ -9,6 +9,7 @@ import { Link } from 'react-router-dom'
 
 function RecipeInput() {
     const navigate = useNavigate()
+    const [recipeId, setRecipeId] = useState(null)
     const [recipeName, setRecipeName] = useState("Reçete İsmi Giriniz")
     const [ingredients, setIngredients] = useState([])
     const [cost, setCost] = useState(0)
@@ -18,47 +19,48 @@ function RecipeInput() {
     const [subRecipes, setSubRecipes] = useState([])
     const [isRecipeEdit, setIsRecipeEdit] = useState(false)
     const [isEdit, setIsEdit] = useState(false)
-    const [isSubRecipe, setIsSubRecipe] = useState("false")
+    const [isSubRecipe, setIsSubRecipe] = useState(false)
     const params = useParams()
 
     const location = useLocation()
 
-    const [subRecipeInputs, setSubRecipeInputs] = useState([{
-        id: "",
-        name: "",
-        unit: "",
-        amount: 0,
-        cost_per_unit: 0,
-        total_cost: 0,
-    }])
-    const [ingredientInputs, setIngredientInputs] = useState([{
-        id: "",
-        name: "",
-        unit: "",
-        amount: 0,
-        cost_per_unit: 0,
-        total_cost: 0,
-    }])
+    const [subRecipeInputs, setSubRecipeInputs] = useState([])
+    const [ingredientInputs, setIngredientInputs] = useState([])
 
-    function setInput(inputIndex, e, isSubRecipe) {
-        const tempInputs = isSubRecipe ? [...subRecipeInputs] : [...ingredientInputs]
-        const forUseState = isSubRecipe ? setSubRecipeInputs : setIngredientInputs
-        const ingOrSuB = isSubRecipe ? [...subRecipes] : [...ingredients]
+    useEffect(()=>{
+        console.log("subrecipeinputs", subRecipeInputs)
+    },[ingredientInputs])
+
+    function setSubRecipeInput(inputIndex, e) {
+        const tempInputs = [...subRecipeInputs]
         const ingredient_index = e.target.value
-        tempInputs[inputIndex].id = ingOrSuB[ingredient_index].id
-        tempInputs[inputIndex].unit = ingOrSuB[ingredient_index].unit
-        tempInputs[inputIndex].cost_per_unit = ingOrSuB[ingredient_index].cost_per_unit
-        tempInputs[inputIndex].name = ingOrSuB[ingredient_index].name
-        tempInputs[inputIndex].amount = 0
-        forUseState(tempInputs)
+        console.log("değişcek olan", tempInputs[inputIndex])
+        console.log("değişeceği", subRecipes[ingredient_index])
+        tempInputs[inputIndex].id = subRecipes[ingredient_index].id
+        //tempInputs[inputIndex].subrecipe_id = subRecipes[ingredient_index].id
+        tempInputs[inputIndex].unit = subRecipes[ingredient_index].unit
+        tempInputs[inputIndex].cost_per_unit = subRecipes[ingredient_index].cost_per_unit
+        tempInputs[inputIndex].name = subRecipes[ingredient_index].name
+        tempInputs[inputIndex].quantity = 0
+        setSubRecipeInputs(tempInputs)
+    }
+    function setIngredientInput(inputIndex, e){
+        const tempInputs = [...ingredientInputs]
+        const ingredient_index = e.target.value
+        tempInputs[inputIndex].id = ingredients[ingredient_index].id
+        tempInputs[inputIndex].unit = ingredients[ingredient_index].unit
+        tempInputs[inputIndex].cost_per_unit = ingredients[ingredient_index].cost_per_unit
+        tempInputs[inputIndex].name = ingredients[ingredient_index].name
+        tempInputs[inputIndex].quantity = 0
+        setIngredientInputs(tempInputs)
     }
     function changeAmount(index, e, isSubRecipe) {
         const tempInputs = isSubRecipe ? [...subRecipeInputs] : [...ingredientInputs]
         const costForUseState = isSubRecipe ? setSubRecipeCost : setIngredientCost
         const ingOrSuB = isSubRecipe ? [...subRecipes] : [...ingredients]
         const forUseState = isSubRecipe ? setSubRecipeInputs : setIngredientInputs
-        tempInputs[index].amount = parseFloat(e.target.value)
-        tempInputs[index].total_cost = parseFloat(tempInputs[index].cost_per_unit) * parseFloat(tempInputs[index].amount)
+        tempInputs[index].quantity = parseFloat(e.target.value)
+        tempInputs[index].total_cost = parseFloat(tempInputs[index].cost_per_unit) * parseFloat(tempInputs[index].quantity)
 
         var tempCost = 0
         tempInputs.forEach((input) => {
@@ -75,18 +77,39 @@ function RecipeInput() {
         tempInputs.push({
             name: "",
             unit: "",
-            amount: 0,
+            quantity: 0,
             cost_per_unit: 0,
         })
         console.log(tempInputs)
         forUseState(tempInputs)
     }
+
+    function deleteIngredient(index) {
+        const tempIngredients = [...ingredientInputs]
+        setIngredientCost(ingredientCost - ingredientInputs[index].total_cost)
+        tempIngredients.splice(index, 1)
+        setIngredientInputs(tempIngredients)
+    }
+    function deleteSubRecipe(index) {
+        const tempSubRecipes = [...subRecipeInputs]
+        setSubRecipeCost(subRecipeCost - tempSubRecipes[index].total_cost)
+        tempSubRecipes.splice(index, 1)
+        setSubRecipeInputs(tempSubRecipes)
+    }
     const getDataFromDB = async () => {
         const tempIsEdit = (params["is-edit"])
-        setIsEdit(Boolean(tempIsEdit))
+        console.log("TEMPISEDIT", tempIsEdit)
+        if (tempIsEdit == "false") {
+            setIsEdit(false)
+        } else {
+            setIsEdit(true)
+        }
         const recipeType = (params["recipe-type"])
-        setIsSubRecipe(recipeType)
-        console.log("typeof tempIsEdit", typeof tempIsEdit)
+        if (recipeType == "false") {
+            setIsSubRecipe(false)
+        } else {
+            setIsSubRecipe(true)
+        }
         if (tempIsEdit == "true") {
             const id = location?.state
             const editRecipeResponse = await fetch(`http://localhost:5000/getSubRecipeToEdit?edit_id=${id}`)
@@ -99,30 +122,54 @@ function RecipeInput() {
             setIngredientCost(editRecipe.ingredient_cost)
             setSubRecipeCost(editRecipe.sub_recipe_cost)
             setCost(editRecipe.total_cost)
-            
+            setRecipeId(id)
+
         }
         const response = await fetch("http://localhost:5000/getSubRecipeAndIngredients")
         const data = await response.json()
+        console.log("data is ", data)
         setIngredients(data.ingredients)
         setSubRecipes(data.sub_recipes)
     }
     useEffect(() => {
         getDataFromDB()
     }, [])
+
     useEffect(() => {
         setCost(subRecipeCost + ingredientCost)
     }, [subRecipeCost, ingredientCost])
-    useEffect(()=>{
-        console.log("ingredientInputs", ingredientInputs)
-    },[ingredientInputs])
+
+    const saveEditedRecipe = async () => {
+        const obj = {
+            id: recipeId,
+            recipeName: recipeName,
+            recipeIngredients: ingredientInputs,
+            recipeSubRecipes: subRecipeInputs,
+            is_sub_recipe: isSubRecipe
+        }
+        const response = await fetch("http://localhost:5000/editRecipe", {
+            method: "POST",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(obj)
+        })
+        if (response.ok) {
+            console.log(obj)
+            navigate("/reçeteler")
+        }
+    }
+
     const saveRecipe = async () => {
         const obj = {
             recipeName: recipeName,
             recipeIngredients: ingredientInputs,
             recipeSubRecipes: subRecipeInputs,
-            isSubRecipe: false
+            recipeUnit: unit,
+            isSubRecipe: isSubRecipe
         }
-        const response = await fetch("http://localhost:5000/saveUpperRecipe", {
+        const response = await fetch("http://localhost:5000/saveRecipe", {
             method: "POST",
             headers: {
                 'Accept': 'application/json',
@@ -143,7 +190,7 @@ function RecipeInput() {
             recipeUnit: unit,
             isSubRecipe: true
         }
-        const response = await fetch("http://localhost:5000/saveSubRecipe", {
+        const response = await fetch("http://localhost:5000/saveRecipe", {
             method: "POST",
             headers: {
                 'Accept': 'application/json',
@@ -170,7 +217,10 @@ function RecipeInput() {
                     </div>
                 </div>
                 <div className={staticStyles["action-container"]}>
-                    <button className={staticStyles["purple-button"]} onClick={() => isSubRecipe == "true" ? saveSubRecipe() : saveRecipe()}>Reçeteyi Kaydet</button>
+                    {isEdit ? (
+                        <button className={staticStyles["purple-button"]} onClick={() => saveEditedRecipe()}>Düzenlenmiş Reçeteyi Kaydet</button>
+                    ) : <button className={staticStyles["purple-button"]} onClick={() => isSubRecipe == "true" ? saveSubRecipe() : saveRecipe()}>Reçeteyi Kaydet</button>
+                    }
                 </div>
             </div>
             <div className={style["recipe-information-container"]}>
@@ -199,8 +249,8 @@ function RecipeInput() {
                     <p>Malzeme</p>
                     <p>Birim</p>
                     <p>Miktar</p>
-                    <p >Maliyet</p>
-                    <p >İşlemler</p>
+                    <p>Maliyet</p>
+                    <p>İşlemler</p>
                 </div>
                 <div id='input-container' className={style["input-container"]}>
                     {ingredientInputs.map((count, inputIndex) => {
@@ -208,7 +258,7 @@ function RecipeInput() {
                         return <><div style={{ gridTemplateColumns: "2fr 1fr 1fr 1fr 1fr" }} id='input' className={style["input"]}>
                             <div className={style["ingredient-name"]} >
 
-                                <select className={style["select-option"]} onChange={(e) => setInput(inputIndex, e, false)} id="ingredient-name"
+                                <select className={style["select-option"]} onChange={(e) => setIngredientInput(inputIndex, e)} id="ingredient-name"
                                     value={count.name ? ingredients.findIndex(ing => ing.name === count.name) : ""} required>
                                     <option value="" disabled>Malzeme Seçiniz</option>
                                     {ingredients?.map((ingredient, ingredient_index) => {
@@ -228,7 +278,7 @@ function RecipeInput() {
                                 </p>
                             </div>
                             <div className={style["action-container"]}>
-                                <svg onClick={() => deleteProduct(index)} xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                                <svg onClick={() => deleteIngredient(inputIndex)} xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
                                     <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z" />
                                     <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z" />
                                 </svg>
@@ -238,7 +288,7 @@ function RecipeInput() {
                 </div>
 
             </div>
-            {isSubRecipe == "false" ? (
+            {!isSubRecipe ? (
                 <>
                     <div className={style["ingredients-container"]}>
                         <div className={style["ingredient-container-headers"]}>
@@ -256,7 +306,7 @@ function RecipeInput() {
                             {subRecipeInputs.map((count, inputIndex) => (
                                 <div style={{ gridTemplateColumns: "2fr 1fr 1fr 1fr 1fr" }} id='input' className={style["input"]}>
                                     <div className={style["ingredient-name"]} >
-                                        <select className={style["select-option"]} onChange={(e) => setInput(inputIndex, e, true)}
+                                        <select className={style["select-option"]} onChange={(e) => setSubRecipeInput(inputIndex, e)}
                                             value={count.name ? subRecipes.findIndex(sub => sub.name === count.name) : ""} required>
                                             <option value="" disabled>Alt Reçete Seçiniz</option>
                                             {subRecipes.map((subRecipe, ingredient_index) => (
@@ -274,11 +324,11 @@ function RecipeInput() {
                                     </div>
                                     <div className={style["recipe-cost"]}>
                                         <p>
-                                            {count.amount == 0 ? 0 : (count.amount * parseFloat(count.cost_per_unit))}₺
+                                            {count.quantity == 0 ? 0 : (count.quantity * parseFloat(count.cost_per_unit))}₺
                                         </p>
                                     </div>
                                     <div className={style["action-container"]}>
-                                        <svg onClick={() => deleteProduct(index)} xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                                        <svg onClick={() => deleteSubRecipe(inputIndex)} xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
                                             <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z" />
                                             <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z" />
                                         </svg>
@@ -296,7 +346,7 @@ function RecipeInput() {
                         <p>Malzeme Maliyeti</p>
                         <span>{ingredientCost}₺</span>
                     </div>
-                    {isSubRecipe == "false" ? (
+                    {!isSubRecipe  ? (
                         <div className={style["cost"]}>
                             <p>Alt Reçete Maliyeti</p>
                             <span>{subRecipeCost}₺</span>

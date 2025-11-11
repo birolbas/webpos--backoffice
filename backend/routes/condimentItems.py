@@ -39,10 +39,11 @@ async def editCondimentItems(request: Request):
                 SET 
                     name = %s,
                     category = %s,
-                    price = %s
+                    price = %s,
+                    related_recipe = %s
                 WHERE id = %s and restaurant_name = %s
                 """
-    values = (data["name"], data["category"], data["price"], data["id"], "TEST")
+    values = (data["name"], data["category"], data["price"], data["relatedRecipe"], data["id"], "TEST")
     execute_query(script, values)
     return data
     

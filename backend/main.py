@@ -3,7 +3,7 @@ from database.config import conn, app, SERVER_CONFIG
 import psycopg2
 from psycopg2.extras import Json ,RealDictCursor
 from fastapi import FastAPI, Request
-from routes import products, paymentMethods ,taxes, discounts, serviceCharges, productCategories, ingredients, recipes, condimentItems, condimentGroups, tables
+from routes import products, paymentMethods ,taxes, discounts, serviceCharges, productCategories, ingredients, recipes, condimentItems, condimentGroups, tables, dashboard, cancelReturn, users, stockMoves
 
 app.include_router(products.router)
 app.include_router(paymentMethods.router)
@@ -16,6 +16,10 @@ app.include_router(recipes.router)
 app.include_router(condimentItems.router)
 app.include_router(condimentGroups.router)
 app.include_router(tables.router)
+app.include_router(dashboard.router)
+app.include_router(cancelReturn.router)
+app.include_router(users.router)
+app.include_router(stockMoves.router)
 
 @app.get("/")
 async def lobby():
